@@ -14,7 +14,7 @@ function windowResized() {
 }
 
 function keyPressed() {
-  if (keyCode === UP_ARROW) {
+  if (keyCode === UP_ARROW || key === 'w') {
     guy.up();
   }  
 }
@@ -23,9 +23,9 @@ function draw() {
   // put drawing code here
   background(0);
 
-  if(keyIsDown(LEFT_ARROW)){
+  if(keyIsDown(LEFT_ARROW) || keyIsDown(65)){
     guy.left();
-  } else if(keyIsDown(RIGHT_ARROW)){
+  } else if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
     guy.right();
   }
 
