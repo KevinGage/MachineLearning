@@ -20,7 +20,9 @@ class Guy {
   }
 
   up() {
-    this.velocityY = this.lift;
+    if (this.y === height - this.height){
+      this.velocityY = this.lift;
+    }
   }
 
   left() {
