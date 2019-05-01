@@ -7,6 +7,7 @@ class Bird {
     this.gravity = 0.4;
     this.lift = -6;
     this.velocity = 0;
+    this.terminalVelocity = 15;
     this.score = 0;
     this.fitness = 0;
 
@@ -42,11 +43,12 @@ class Bird {
     if (closest != null) {
       // Now create the inputs to the neural network
       let inputs = [];
-      inputs[0] = this.y / height;
-      inputs[1] = closest.top / height;
-      inputs[2] = closest.bottom / height;
-      inputs[3] = closest.x / width;
-      inputs[4] = this.velocity / 10;
+
+      inputs[0] = map(this.y, 0, height, 0, 1);
+      inputs[1] = map(closest.top, 0, height, 0, 1);
+      inputs[2] = map(closest.bottom, 0, height, 0, 1);
+      inputs[3] = map(closest.x, 0, width, 0, 1);
+      inputs[4] = map(this.velocity, this.lift, this.terminalVelocity, 0, 1);
 
       // Get the outputs from the network
       let output = this.brain.predict(inputs);
@@ -68,6 +70,9 @@ class Bird {
 
   update() {
     this.velocity += this.gravity;
+    if (this.velocity > this.terminalVelocity) {
+      this.velocity = this.terminalVelocity;
+    }
     this.y += this.velocity;
 
     this.score++;
