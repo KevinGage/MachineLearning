@@ -112,6 +112,20 @@ class NeuralNetwork {
     });
   }
 
+  getWeights() {
+    let weightValues = [];
+
+    tf.tidy(() => {
+      const weights = this.model.getWeights();
+
+      for (let i = 0; i < weights.length; i++) {
+        let values = weights[i].dataSync().slice();
+        weightValues.push(values);
+      }
+    });
+    return weightValues;
+  }
+
   dispose() {
     this.model.dispose();
   }
