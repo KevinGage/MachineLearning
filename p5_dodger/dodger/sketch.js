@@ -1,4 +1,5 @@
 var guy;
+var obstacles;
 
 function setup() {
   // put setup code here
@@ -7,6 +8,7 @@ function setup() {
   background(0);
 
   guy = new Guy();
+  obstacles = [];
 }
 
 function windowResized() {
@@ -27,6 +29,12 @@ function draw() {
     guy.left();
   } else if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
     guy.right();
+  }
+
+  if(keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
+    guy.duck();
+  } else {
+    guy.stand();
   }
 
   guy.update();
