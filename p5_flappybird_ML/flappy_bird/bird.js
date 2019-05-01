@@ -17,6 +17,8 @@ class Bird {
     } else {
       this.brain = new NeuralNetwork(5, 8, 2);
     }
+
+    this.color = this.getColor();
   }
 
   copy() {
@@ -24,7 +26,7 @@ class Bird {
   }
 
   show() {
-    fill('yellow');
+    fill(this.color);
     square(this.x, this.y, this.width);
   }
 
@@ -53,7 +55,7 @@ class Bird {
       // Get the outputs from the network
       let output = this.brain.predict(inputs);
       // Decide to jump or not!
-      if (output[0] > output[1]) {
+      if (output[0] >= output[1]) {
         this.up();
       }
     }
@@ -80,5 +82,29 @@ class Bird {
 
   dispose() {
     this.brain.dispose();
+  }
+
+  getColor() {
+    let colorCode = [255,255,255];
+    const weightValues = this.brain.getWeights();
+
+    let colorVal0 = 0;
+    let colorVal1 = 0;
+    let colorVal2 = 0;
+    for (let weight of weightValues[0]) {
+      colorVal0 += weight;
+    }
+    for (let weight of weightValues[1]) {
+      colorVal1 += weight;
+    }
+    for (let weight of weightValues[2]) {
+      colorVal2 += weight;
+    }
+
+    colorCode[0] = map(colorVal0, (-1 * weightValues[0].length), weightValues[0].length, 0, 255);
+    colorCode[1] = map(colorVal1, (-1 * weightValues[1].length), weightValues[1].length, 0, 255);
+    colorCode[2] = map(colorVal2, (-1 * weightValues[2].length), weightValues[2].length, 0, 255);
+    
+    return colorCode;
   }
 }
