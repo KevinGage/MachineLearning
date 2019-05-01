@@ -1,6 +1,6 @@
 //https://github.com/CodingTrain/Flappy-Bird-Clone
 
-const totalPopulation = 250;
+const totalPopulation = 150;
 let birds = [];
 let savedBirds = [];
 let pipes = [];
@@ -43,6 +43,10 @@ function draw() {
   speedSpan.html(cycles);
 
   for (let n = 0; n < cycles; n++){
+    if (counter % 150 == 0 || counter == 0) {
+      pipes.push(new Pipe());
+    }
+
     for (let i = pipes.length - 1; i >=0; i--) {
       pipes[i].update();
       if (pipes[i].offscreen()) {
@@ -79,9 +83,6 @@ function draw() {
       }
     }
 
-    if (counter % 150 == 0 || counter == 0) {
-      pipes.push(new Pipe());
-    }
     counter++;
   }
 
@@ -100,5 +101,6 @@ function draw() {
     currentScore = 0;
     nextGeneration();
     generationCount++;
+    counter = 0;
   }
 }
