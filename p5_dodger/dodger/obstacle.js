@@ -31,6 +31,18 @@ class Obstacle {
     }
   }
 
+  offscreen() {
+    if (this.x < (-1 * this.width)) {
+      return true;
+    } else if (this.x > width) {
+      return true;
+    } else if (this.y > height) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   show () {
     fill(this.color);
     square(this.x, this.y, this.width);
