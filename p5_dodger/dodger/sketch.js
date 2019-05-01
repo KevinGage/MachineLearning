@@ -55,6 +55,11 @@ function draw() {
     }
   }
 
+  score ++;
+  if (score > highscore) {
+    highscore = score;
+  }
+
   for (let i = 0; i < obstacles.length; i++) {
     obstacles[i].update();
     obstacles[i].show();
@@ -62,12 +67,12 @@ function draw() {
     if (obstacles[i].offscreen()) {
       obstacles.splice(i, 1);
     }
+
+    if (obstacles[i].hits(guy)) {
+      score = 0;
+    }
   }
 
-  score ++;
-  if (score > highscore) {
-    highscore = score;
-  }
   push();
   fill('yellow');
   text('Score: '+ score, 0, 20);
