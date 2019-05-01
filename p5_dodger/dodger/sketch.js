@@ -27,7 +27,7 @@ function draw() {
 
   if(keyIsDown(LEFT_ARROW) || keyIsDown(65)){
     guy.left();
-  } else if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+  } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
     guy.right();
   }
 
@@ -39,4 +39,20 @@ function draw() {
 
   guy.update();
   guy.show();
+
+  if (frameCount % 100 == 0) {
+    let rng = random(3);
+    if (rng < 1) {
+      obstacles.push(new Obstacle('left'));
+    } else if (rng < 2) {
+      obstacles.push(new Obstacle('right'));
+    } else {
+      obstacles.push(new Obstacle('top'));
+    }
+  }
+
+  for (let i = 0; i < obstacles.length; i++) {
+    obstacles[i].update();
+    obstacles[i].show();
+  }
 }
