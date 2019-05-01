@@ -1,5 +1,7 @@
 var guy;
 var obstacles;
+var score;
+var highscore;
 
 function setup() {
   // put setup code here
@@ -9,6 +11,8 @@ function setup() {
 
   guy = new Guy();
   obstacles = [];
+  score = 0;
+  highscore = 0;
 }
 
 function windowResized() {
@@ -59,4 +63,14 @@ function draw() {
       obstacles.splice(i, 1);
     }
   }
+
+  score ++;
+  if (score > highscore) {
+    highscore = score;
+  }
+  push();
+  fill('yellow');
+  text('Score: '+ score, 0, 20);
+  text('High Score: '+ highscore, 0, 40);
+  pop();
 }
