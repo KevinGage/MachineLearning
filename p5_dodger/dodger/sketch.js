@@ -54,5 +54,9 @@ function draw() {
   for (let i = 0; i < obstacles.length; i++) {
     obstacles[i].update();
     obstacles[i].show();
+
+    if (obstacles[i].offscreen()) {
+      obstacles.splice(i, 1);
+    }
   }
 }
