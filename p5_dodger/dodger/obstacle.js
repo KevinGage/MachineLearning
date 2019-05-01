@@ -3,22 +3,31 @@ class Obstacle {
     this.color = 'red';
     this.width = 64;
     this.height = this.width;
+    let rng = random();
 
     if (side === 'right') {
       this.x = width - this.width;
-      this.y = height - this.height;
+      if (rng < 0.5) {
+        this.y = height - this.height;
+      } else {
+        this.y = height - (this.height * 2);
+      }
       this.velocityX = -5;
       this.velocityY = 0;
     } else if (side === 'left') {
       this.x = 0;
-      this.y = height - this.height;
+      if (rng < 0.5) {
+        this.y = height - this.height;
+      } else {
+        this.y = height - (this.height * 2);
+      }
       this.velocityX = 5;
       this.velocityY = 0;
     } else if (side === 'top') {
       this.x = random(width - this.width);
       this.y = 0;
       this.velocityX = 0;
-      this.velocityY = -3;
+      this.velocityY = 3;
     }
   }
 
