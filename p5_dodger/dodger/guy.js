@@ -2,9 +2,9 @@ class Guy {
   constructor() {
     this.color = 'green';
     this.width = 64;
-    this.height = this.width;
-    this.y = height - this.height + 10;
-    this.x = 64;
+    this.height = this.width * 2;
+    this.y = height - (this.height + 20);
+    this.x = (width / 2) - (this.width / 2);
     this.gravity = 1.3;
     this.lift = -30;
     this.speed = 1;
@@ -16,7 +16,7 @@ class Guy {
 
   show() {
     fill(this.color);
-    square(this.x, this.y, this.width);
+    rect(this.x, this.y, this.width, this.height);
   }
 
   up() {
@@ -35,6 +35,17 @@ class Guy {
     if (this.velocityX <= this.maxVelocityX){
       this.velocityX += this.speed;
     }
+  }
+
+  duck() {
+    if (this.y === height - this.height){
+      this.y = height - this.width;
+      this.height = this.width;
+    }
+  }
+
+  stand() {
+    this.height = this.width * 2;
   }
 
   update() {
