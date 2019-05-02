@@ -1,7 +1,7 @@
 class Obstacle {
   constructor(side) {
     this.color = 'blue';
-    this.width = 64;
+    this.width = 20;
     this.height = this.width;
     let rng = random();
     this.maxVelocityX = 5;

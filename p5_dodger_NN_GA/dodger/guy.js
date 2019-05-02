@@ -1,11 +1,11 @@
 class Guy {
   constructor(brain) {
-    this.width = 64;
+    this.width = 20;
     this.height = this.width * 2;
     this.y = height - (this.height + 20);
     this.x = (width / 2) - (this.width / 2);
-    this.gravity = 1.3;
-    this.lift = -30;
+    this.gravity = 0.4;
+    this.lift = -10;
     this.speed = 1;
     this.velocityY = 0;
     this.velocityX = 0;
