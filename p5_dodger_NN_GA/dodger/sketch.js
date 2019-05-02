@@ -42,7 +42,7 @@ function draw() {
 
   for (let n = 0; n < cycles; n++) {
     //Spawn obstacles
-    if (gameLogicCounter % 100 == 0 || gameLogicCounter == 0) {
+    if (gameLogicCounter % 150 == 0 || gameLogicCounter == 0) {
       let rng = random(2);
       if (rng < 1) {
         obstacles.push(new Obstacle('left'));
@@ -51,7 +51,7 @@ function draw() {
       }
     }
 
-    if (gameLogicCounter % 60 == 0 || gameLogicCounter == 0) {
+    if (gameLogicCounter % 100 == 0 || gameLogicCounter == 0) {
       obstacles.push(new Obstacle('top'));
     }
 
