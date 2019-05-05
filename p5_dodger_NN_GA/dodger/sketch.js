@@ -15,8 +15,7 @@ let generationSpan;
 let aliveSpan;
 let gameLogicCounter = 0;
 
-let lastObstacleMovingLeft = 0;
-
+let lastObstacleMovingDown = 0;
 
 function setup() {
   // put setup code here
@@ -45,13 +44,18 @@ function draw() {
   let cycles = speedSlider.value();
   speedSpan.html(cycles);
 
+  if (gameLogicCounter == 0) {
+    obstacles.push(new Obstacle('center'));
+    lastObstacleMovingDown = 0;
+  }
+
   for (let n = 0; n < cycles; n++) {
     //Spawn obstacles
-    if (random() < 0.01 && lastObstacleMovingLeft > 50) {
-        obstacles.push(new Obstacle('right'));
-        lastObstacleMovingLeft = 0;
+    if (random() < 0.01 && lastObstacleMovingDown > 150) {
+      obstacles.push(new Obstacle('top'));
+      lastObstacleMovingDown = 0;
     } else {
-      lastObstacleMovingLeft++;
+      lastObstacleMovingDown++;
     }
 
     //Update obstacles
