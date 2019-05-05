@@ -26,7 +26,14 @@ class Obstacle {
       this.velocityX = this.maxVelocityX;
       this.velocityY = 0;
     } else if (side === 'top') {
+      this.width = this.width * 3;
       this.x = random(width - this.width);
+      this.y = 0;
+      this.velocityX = 0;
+      this.velocityY = this.maxVelocityY;
+    } else if (side === 'center') {
+      this.width = this.width * 3;
+      this.x = (width / 2) - (this.width / 2);
       this.y = 0;
       this.velocityX = 0;
       this.velocityY = this.maxVelocityY;
@@ -47,7 +54,7 @@ class Obstacle {
 
   show () {
     fill(this.color);
-    square(this.x, this.y, this.width);
+    rect(this.x, this.y, this.width, this.height);
   }
 
   update() {
