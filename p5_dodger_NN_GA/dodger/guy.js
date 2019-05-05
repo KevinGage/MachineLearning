@@ -112,6 +112,14 @@ class Guy {
     }
   }
 
+  offScreen() {
+    if (this.x < 0 || this.x + this.width > width) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   stand() {
     this.height = this.width * 2;
   }
@@ -137,22 +145,6 @@ class Guy {
 
     //move left and right
     this.x += this.velocityX;
-
-    //cant go off left of screen
-    if (this.x <= 0) {
-      this.x = 0;
-      if (this.velocityX < 0) {
-        this.velocityX = 0;
-      }
-    }
-
-    //cant go off right of screen
-    if (this.x + this.width >= width) {
-      this.x = width - this.width;
-      if (this.velocityX > 0) {
-        this.velocityX = 0;
-      }
-    }
 
     this.score++;
   }
