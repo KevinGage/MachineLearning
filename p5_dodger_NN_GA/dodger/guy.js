@@ -20,7 +20,7 @@ class Guy {
       this.brain.mutate(0.1);
     } else {
       //Nerual network 4 inputs 8 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(4, 8, 4);
+      this.brain = new NeuralNetwork(5, 8, 4);
     }
 
     this.color = this.getColor();
@@ -37,6 +37,7 @@ class Guy {
 
   think(obstacles) {
     let movingLeftX = width;
+    let movingLeftY = height;
     let movingLeftDist = Infinity;
     let onGround = this.onGround();
 
@@ -47,6 +48,7 @@ class Guy {
         if (diffMovingLeft < movingLeftDist) {
           movingLeftDist = diffMovingLeft;
           movingLeftX = obstacles[i].x;
+          movingLeftY = obstacles[i].y;
         }
       }
     }
@@ -56,8 +58,9 @@ class Guy {
 
     inputs[0] = map(this.x, 0, width, 0, 1);
     inputs[1] = map(movingLeftX, 0, width, 0, 1);
-    inputs[2] = map(movingLeftDist, -1 * width, width, 0, 1);
-    inputs[3] = onGround;
+    inputs[2] = map(movingLeftY, height - 40, height - 20, 0, 1);
+    inputs[3] = map(movingLeftDist, -1 * width, width, 0, 1);
+    inputs[4] = onGround;
 
     // Get the outputs from the network
     let output = this.brain.predict(inputs);
