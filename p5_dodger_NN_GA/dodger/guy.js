@@ -19,19 +19,8 @@ class Guy {
       this.brain = brain.copy();
       this.brain.mutate(0.1);
     } else {
-      // Inputs
-        // this.x
-        // this.y
-        // this.velocityY
-        // this.velocityX
-        // Some others for obstacles???
-      // Hidden layer???
-      // Outputs
-        // move left
-        // move right
-        // jump
-        // duck
-      this.brain = new NeuralNetwork(9, 12, 4);
+      //Nerual network 4 inputs 8 hidden nodes 4 outputs
+      this.brain = new NeuralNetwork(4, 8, 4);
     }
 
     this.color = this.getColor();
@@ -47,72 +36,46 @@ class Guy {
   }
 
   think(obstacles) {
-    //this is junk right now.
-    // Just finds closest obstacles location and trajectory
-    let closestDiffTotal = Infinity;
-    let closestDiffX = Infinity;
-    let closestDiffY = Infinity;
-    let closestVelocityX = 0;
-    let closestVelocityY = 0;
-    let closesObstacle;
+    let movingLeftX = width;
+    let movingLeftDist = Infinity;
+    let onGround = this.onGround();
 
     for (let i = 0; i < obstacles.length; i++) {
-      let diffX = obstacles[i].x - this.x;
+      let diffMovingLeft = dist(this.x + (this.width / 2), this.y, (obstacles[i].x + obstacles[i].width / 2), obstacles[i].y);
 
-      if (diffX < 0) {
-        diffX = abs(diffX) - obstacles[i].width;
-      }
-
-      let diffY = obstacles[i].y - this.y;
-
-      if (diffY < 0) {
-        diffY = abs(diffY) - obstacles[i].height;
-      }
-
-      let diff = diffX + diffY;
-
-      if (diff < closestDiffTotal) {
-        closesObstacle = obstacles[i];
-        closestDiffTotal = diff;
-        closestDiffX = closesObstacle.x;
-        closestDiffY = closesObstacle.y;
-        closestVelocityX = closesObstacle.velocityX;
-        closestVelocityY = closesObstacle.velocityY;
+      if (obstacles[i].velocityX < 1) {
+        if (diffMovingLeft < movingLeftDist) {
+          movingLeftDist = diffMovingLeft;
+          movingLeftX = obstacles[i].x;
+        }
       }
     }
 
-    if (closestDiffTotal != Infinity) {
-      //Create neural network inputs
-      let inputs = [];
+    //Create neural network inputs
+    let inputs = [];
 
-      inputs[0] = map(this.x, 0, width, 0, 1);
-      inputs[1] = map(this.y, 0, height, 0, 1);
-      inputs[2] = map(this.velocityX, (-1 * this.maxVelocityX), this.maxVelocityX, 0, 1);
-      inputs[3] = map(this.velocityY, this.lift, this.maxVelocityY, 0, 1);
-      inputs[4] = map(closestDiffTotal, 0, height + width, 0, 1);
-      inputs[5] = map(closestDiffX, 0, width, 0, 1);
-      inputs[6] = map(closestDiffY, 0, height, 0, 1);
-      inputs[7] = map(closestVelocityX, -1 * closesObstacle.maxVelocityX, closesObstacle.maxVelocityX, 0, 1);
-      inputs[8] = map(closestVelocityY, 0, closesObstacle.maxVelocityY, 0, 1);
-    
-      // Get the outputs from the network
-      let output = this.brain.predict(inputs);
+    inputs[0] = map(this.x, 0, width, 0, 1);
+    inputs[1] = map(movingLeftX, 0, width, 0, 1);
+    inputs[2] = map(movingLeftDist, -1 * width, width, 0, 1);
+    inputs[3] = onGround;
 
-      //Make movement decisions
-      if (output[0] > 0.5) {
-        this.left();
-      }
-      if (output[1] > 0.5) {
-        this.right();
-      }
-      if (output[2] > 0.5) {
-        this.up();
-      }
-      if (output[3] > 0.5) {
-        this.duck();
-      } else {
-        this.stand();
-      }
+    // Get the outputs from the network
+    let output = this.brain.predict(inputs);
+
+    //Make movement decisions
+    if (output[0] > 0.5) {
+      this.left();
+    }
+    if (output[1] > 0.5) {
+      this.right();
+    }
+    if (output[2] > 0.5) {
+      this.up();
+    }
+    if (output[3] > 0.5) {
+      this.duck();
+    } else {
+      this.stand();
     }
   }
 
@@ -138,6 +101,14 @@ class Guy {
     if (this.y === height - this.height){
       this.y = height - this.width;
       this.height = this.width;
+    }
+  }
+
+  onGround() {
+    if (this.y === height - this.height){
+      return 1;
+    } else {
+      return 0;
     }
   }
 

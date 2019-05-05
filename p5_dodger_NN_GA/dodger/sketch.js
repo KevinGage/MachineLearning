@@ -13,6 +13,8 @@ let currentScoreSpan;
 let highScoreSpan;
 let gameLogicCounter = 0;
 
+let lastObstacleMovingLeft = 0;
+
 
 function setup() {
   // put setup code here
@@ -42,17 +44,11 @@ function draw() {
 
   for (let n = 0; n < cycles; n++) {
     //Spawn obstacles
-    if (gameLogicCounter % 150 == 0 || gameLogicCounter == 0) {
-      let rng = random(2);
-      if (rng < 1) {
-        obstacles.push(new Obstacle('left'));
-      } else {
+    if (random() < 0.01 && lastObstacleMovingLeft > 50) {
         obstacles.push(new Obstacle('right'));
-      }
-    }
-
-    if (gameLogicCounter % 100 == 0 || gameLogicCounter == 0) {
-      obstacles.push(new Obstacle('top'));
+        lastObstacleMovingLeft = 0;
+    } else {
+      lastObstacleMovingLeft++;
     }
 
     //Update obstacles
