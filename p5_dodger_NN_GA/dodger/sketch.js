@@ -11,6 +11,8 @@ let currentScore = 0;
 let highScore = 0;
 let currentScoreSpan;
 let highScoreSpan;
+let generationSpan;
+let aliveSpan;
 let gameLogicCounter = 0;
 
 let lastObstacleMovingLeft = 0;
@@ -23,6 +25,7 @@ function setup() {
   speedSlider = select('#speedSlider');
   speedSpan = select('#speed');
   generationSpan = select('#gen');
+  aliveSpan = select('#al');
   currentScoreSpan = select('#cs');
   highScoreSpan = select('#hs');
 
@@ -74,6 +77,12 @@ function draw() {
       guy.think(obstacles);
       guy.update();
 
+      if (guys[i].offScreen()) {
+        let deadGuy = guys.splice(i, 1)[0];
+        lastGeneration.push(deadGuy);
+        continue;
+      }
+
       for (let j = 0; j < obstacles.length; j++) {
         if (obstacles[j].hits(guys[i])) {
           let deadGuy = guys.splice(i, 1)[0];
@@ -90,6 +99,7 @@ function draw() {
   currentScoreSpan.html(currentScore);
   highScoreSpan.html(highScore);
   generationSpan.html(generationCount);
+  aliveSpan.html(guys.length);
 
   for (let i = 0; i < obstacles.length; i++) {
     obstacles[i].show();
