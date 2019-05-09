@@ -20,7 +20,7 @@ class Guy {
       this.brain.mutate(0.1);
     } else {
       //Nerual network 4 inputs 8 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(4, 16, 8, 4);
+      this.brain = new NeuralNetwork(8, 16, 8, 4);
     }
 
     this.color = this.getColor();
@@ -36,18 +36,34 @@ class Guy {
   }
 
   think(obstacles) {
-    let movingDownX = Infinity;
+    //Info about closet obstacle moving down
+    let movingDownX = width;
     let movingDownY = height;
-    let movingDownDist = Infinity;
+    let movingDownDist = height;
 
+    //Info about closet obstacle moving left
+    let movingLeftX = width;
+    let movingLeftY = height;
+    let movingLeftDist = width;
+    let onGround = this.onGround();
+
+    //Find closest obstacles
     for (let i = 0; i < obstacles.length; i++) {
       if (obstacles[i].velocityY > 1) {
-        let diffMovingLeft = dist(this.x + (this.width / 2), this.y, (obstacles[i].x + obstacles[i].width / 2), obstacles[i].y);
+        let diffMovingDown = dist(this.x + (this.width / 2), this.y, (obstacles[i].x + obstacles[i].width / 2), obstacles[i].y);
 
-        if (diffMovingLeft < movingDownDist) {
-          movingDownDist = diffMovingLeft;
+        if (diffMovingDown < movingDownDist) {
+          movingDownDist = diffMovingDown;
           movingDownX = obstacles[i].x;
           movingDownY = obstacles[i].y;
+        }
+      } else if (obstacles[i].velocityX < 1) {
+        let diffMovingLeft = dist(this.x + (this.width / 2), this.y, (obstacles[i].x + obstacles[i].width / 2), obstacles[i].y);
+
+        if (diffMovingLeft < movingLeftDist) {
+          movingLeftDist = diffMovingLeft;
+          movingLeftX = obstacles[i].x;
+          movingLeftY = obstacles[i].y;
         }
       }
     }
@@ -55,10 +71,19 @@ class Guy {
     //Create neural network inputs
     let inputs = [];
 
+    //Think about self
     inputs[0] = map(this.x, 0, width, 0, 1);
-    inputs[1] = map(movingDownX, 0, width, 0, 1);
-    inputs[2] = map(movingDownY, 0, height, 0, 1);
-    inputs[3] = map(movingDownDist, 0, height, 0, 1);
+    inputs[1] = onGround;
+
+    //Think about closest obstacle moving down
+    inputs[2] = map(movingDownX, 0, width, 0, 1);
+    inputs[3] = map(movingDownY, 0, height, 0, 1);
+    inputs[4] = map(movingDownDist, 0, height, 0, 1);
+
+    //Think about closest obstacle moving left
+    inputs[5] = map(movingLeftX, 0, width, 0, 1);
+    inputs[6] = map(movingLeftY, height - 40, height - 20, 0, 1);
+    inputs[7] = map(movingLeftDist, -1 * width, width, 0, 1);
 
     // Get the outputs from the network
     let output = this.brain.predict(inputs);
