@@ -15,6 +15,7 @@ let generationSpan;
 let aliveSpan;
 let gameLogicCounter = 0;
 
+let lastObstacleMovingLeft = -500;
 let lastObstacleMovingDown = 0;
 
 function setup() {
@@ -56,6 +57,12 @@ function draw() {
       lastObstacleMovingDown = 0;
     } else {
       lastObstacleMovingDown++;
+    }
+    if (random() < 0.01 && lastObstacleMovingLeft > 50 || lastObstacleMovingLeft == -1) {
+      obstacles.push(new Obstacle('right'));
+      lastObstacleMovingLeft = 0;
+    } else {
+      lastObstacleMovingLeft++;
     }
 
     //Update obstacles
@@ -115,6 +122,8 @@ function draw() {
 
   if (guys.length == 0) {
     currentScore = 0;
+    lastObstacleMovingLeft = -500;
+    lastObstacleMovingDown = 0;
     nextGeneration();
     generationCount++;
     gameLogicCounter = 0;
