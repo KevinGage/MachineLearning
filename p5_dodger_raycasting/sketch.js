@@ -1,4 +1,5 @@
 var guy;
+var walls;
 var obstacles;
 var score;
 var highscore;
@@ -8,6 +9,11 @@ function setup() {
   var canvas = createCanvas(windowWidth, windowHeight);
   canvas.style('display', 'block');
   background(0);
+
+  let leftWall = new Boundary(1, 1, 1, height - 1);
+  let rightWall = new Boundary(width - 1, 1, width - 1, height - 1);
+  let topWall = new Boundary(1, 1, width - 1, 1);
+  walls = [leftWall, rightWall, topWall];
 
   guy = new Guy();
   obstacles = [];
@@ -43,6 +49,11 @@ function draw() {
 
   guy.update();
   guy.show();
+
+  for (let i = 0; i < walls.length; i++) {
+    walls[i].show();
+    guy.look(walls[i]);
+  }
 
   if (frameCount % 100 == 0) {
     let rng = random(3);
