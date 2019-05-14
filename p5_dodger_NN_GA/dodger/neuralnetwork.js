@@ -153,4 +153,14 @@ class NeuralNetwork {
   dispose() {
     this.model.dispose();
   }
+
+  async save() {
+    const saveResults = await this.model.save('downloads://BestGuyBrain');
+    console.log(saveResults);
+  }
+
+  async load(savedModel, savedWeights) {
+    this.model = await tf.loadLayersModel(tf.io.browserFiles([savedModel, savedWeights]));
+    console.log("loaded");
+  }
 }

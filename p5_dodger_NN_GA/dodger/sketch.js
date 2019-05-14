@@ -18,6 +18,13 @@ let gameLogicCounter = 0;
 let lastObstacleMovingLeft = -150;
 let lastObstacleMovingDown = 0;
 
+let pauseButton;
+let resumeButton;
+let saveButton;
+let loadButton;
+let jsonUpload;
+let weightsUpload;
+
 let bestBrain = {};
 
 function setup() {
@@ -30,6 +37,18 @@ function setup() {
   aliveSpan = select('#al');
   currentScoreSpan = select('#cs');
   highScoreSpan = select('#hs');
+
+  pauseButton = select('#pauseButton');
+  pauseButton.mousePressed(pause);
+  resumeButton = select('#resumeButton');
+  resumeButton.mousePressed(resume);
+
+  saveButton = select('#saveButton');
+  saveButton.mousePressed(saveGuyBrain);
+  jsonUpload = document.getElementById('sm');
+  weightsUpload = document.getElementById('sw');
+  loadButton = select('#loadButton');
+  loadButton.mousePressed(loadGuyBrain);
 
   //Use cpu for tensor flow instead of gpu because this game is simple and I'm running it on laptops
   tf.setBackend('cpu');
@@ -140,4 +159,25 @@ function draw() {
     lastObstacleMovingLeft = -150;
   }
 
+}
+
+function saveGuyBrain() {
+  bestBrain.save();
+}
+
+function loadGuyBrain() {
+  noLoop();
+  let loadedGuy = new Guy();
+  loadedGuy.brain.load(jsonUpload.files[0], weightsUpload.files[0]);
+  loadedGuy.score = currentScore;
+  guys.push(loadedGuy);
+  loop();
+}
+
+function pause() {
+  noLoop();
+}
+
+function resume() {
+  loop();
 }
