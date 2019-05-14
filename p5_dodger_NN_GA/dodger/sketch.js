@@ -171,7 +171,6 @@ function loadGuyBrain() {
   loadedGuy.brain.load(jsonUpload.files[0], weightsUpload.files[0]);
   loadedGuy.score = currentScore;
   guys.push(loadedGuy);
-  loop();
 }
 
 function pause() {
