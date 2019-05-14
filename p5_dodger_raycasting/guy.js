@@ -12,6 +12,15 @@ class Guy {
     this.velocityX = 0;
     this.maxVelocityX = 10;
     this.friction = 0.9;
+
+    this.upLeftEye = new VisionRay(this.x, this.y, 270);
+    this.upRightEye = new VisionRay(this.x + this.width, this.y, 270);
+
+    this.rightTopEye = new VisionRay(this.x + this.width, this.y + this.height * .75, 0);
+    this.rightBottomEye = new VisionRay(this.x + this.width, this.y + this.height * .25, 0);
+
+    this.leftTopEye = new VisionRay(this.x, this.y + this.height * .75, 180);
+    this.leftBottomEye = new VisionRay(this.x, this.y + this.height * .25, 180);
   }
 
   show() {
@@ -48,6 +57,37 @@ class Guy {
     this.height = this.width * 2;
   }
 
+  look(boundary) {
+    const pt1 = this.upLeftEye.check(boundary);
+    const pt2 = this.upRightEye.check(boundary);
+    const pt3 = this.rightTopEye.check(boundary);
+    const pt4 = this.rightBottomEye.check(boundary);
+    const pt5 = this.leftTopEye.check(boundary);
+    const pt6 = this.leftBottomEye.check(boundary);
+
+    push();
+    stroke(255);
+    if (pt1) {
+      ellipse(pt1.x, pt1.y, 10, 10);
+    }
+    if (pt2) {
+      ellipse(pt2.x, pt2.y, 10, 10);
+    }
+    if (pt3) {
+      ellipse(pt3.x, pt3.y, 10, 10);
+    }
+    if (pt4) {
+      ellipse(pt4.x, pt4.y, 10, 10);
+    }
+    if (pt5) {
+      ellipse(pt5.x, pt5.y, 10, 10);
+    }
+    if (pt6) {
+      ellipse(pt6.x, pt6.y, 10, 10);
+    }
+    pop();
+  }
+
   update() {
     //apply gravity and move up and down
     this.velocityY += this.gravity;
@@ -80,5 +120,13 @@ class Guy {
         this.velocityX = 0;
       }
     }
+
+    //Update eye position
+    this.upLeftEye.setPos(this.x, this.y);
+    this.upRightEye.setPos(this.x + this.width, this.y);
+    this.rightTopEye.setPos(this.x + this.width, this.y + this.height * .75);
+    this.rightBottomEye.setPos(this.x + this.width, this.y + this.height * .25);
+    this.leftTopEye.setPos(this.x, this.y + this.height * .75);
+    this.leftBottomEye.setPos(this.x, this.y + this.height * .25);
   }
 }
