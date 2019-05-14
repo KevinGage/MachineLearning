@@ -1,5 +1,5 @@
 class Guy {
-  constructor(brain) {
+  constructor(brain, noMutate) {
     this.width = 20;
     this.height = this.width * 2;
     this.y = height - (this.height + 20);
@@ -17,10 +17,12 @@ class Guy {
 
     if (brain instanceof NeuralNetwork) {
       this.brain = brain.copy();
-      this.brain.mutate(0.1);
+      if (!noMutate) {
+        this.brain.mutate(0.05);
+      }
     } else {
       //Nerual network 4 inputs 8 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(8, 16, 8, 4);
+      this.brain = new NeuralNetwork(9, 16, 32, 16, 4);
     }
 
     this.color = this.getColor();
@@ -74,16 +76,17 @@ class Guy {
     //Think about self
     inputs[0] = map(this.x, 0, width, 0, 1);
     inputs[1] = onGround;
+    inputs[2] = map(this.velocityX, this.velocityX * -1, this.maxVelocityX, 0, 1);
 
     //Think about closest obstacle moving down
-    inputs[2] = map(movingDownX, 0, width, 0, 1);
-    inputs[3] = map(movingDownY, 0, height, 0, 1);
-    inputs[4] = map(movingDownDist, 0, height, 0, 1);
+    inputs[3] = map(movingDownX, 0, width, 0, 1);
+    inputs[4] = map(movingDownY, 0, height, 0, 1);
+    inputs[5] = map(movingDownDist, 0, height, 0, 1);
 
     //Think about closest obstacle moving left
-    inputs[5] = map(movingLeftX, 0, width, 0, 1);
-    inputs[6] = map(movingLeftY, height - 40, height - 20, 0, 1);
-    inputs[7] = map(movingLeftDist, -1 * width, width, 0, 1);
+    inputs[6] = map(movingLeftX, 0, width, 0, 1);
+    inputs[7] = map(movingLeftY, height - 40, height - 20, 0, 1);
+    inputs[8] = map(movingLeftDist, -1 * width, width, 0, 1);
 
     // Get the outputs from the network
     let output = this.brain.predict(inputs);
