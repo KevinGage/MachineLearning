@@ -1,5 +1,4 @@
 function nextGeneration(bestBrain) {
-  console.log('next generation');
   calculateFitness();
 
   for (let i = 0; i < totalPopulation - 1; i++) {

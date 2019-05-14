@@ -15,8 +15,10 @@ let generationSpan;
 let aliveSpan;
 let gameLogicCounter = 0;
 
-let lastObstacleMovingLeft = -500;
+let lastObstacleMovingLeft = -150;
 let lastObstacleMovingDown = 0;
+
+let bestBrain = {};
 
 function setup() {
   // put setup code here
@@ -58,11 +60,15 @@ function draw() {
     } else {
       lastObstacleMovingDown++;
     }
-    if (random() < 0.01 && lastObstacleMovingLeft > 50 || lastObstacleMovingLeft == -1) {
+    if (random() < 0.01 && lastObstacleMovingLeft > 90) {
       obstacles.push(new Obstacle('right'));
       lastObstacleMovingLeft = 0;
     } else {
       lastObstacleMovingLeft++;
+    }
+
+    if (lastObstacleMovingLeft == -1) {
+      obstacles.push(new Obstacle('right_low'));
     }
 
     //Update obstacles
@@ -81,14 +87,15 @@ function draw() {
       if (guy.score > currentScore) {
         currentScore = guy.score;
       }
-      if (currentScore > highScore) {
-        highScore = currentScore;
-      }
 
       guy.think(obstacles);
       guy.update();
 
       if (guys[i].offScreen()) {
+        if (currentScore > highScore) {
+          highScore = currentScore;
+          bestBrain = guy.brain.copy();
+        }
         let deadGuy = guys.splice(i, 1)[0];
         lastGeneration.push(deadGuy);
         continue;
@@ -96,6 +103,10 @@ function draw() {
 
       for (let j = 0; j < obstacles.length; j++) {
         if (obstacles[j].hits(guys[i])) {
+          if (currentScore > highScore) {
+            highScore = currentScore;
+            bestBrain = guy.brain.copy();
+          }
           let deadGuy = guys.splice(i, 1)[0];
           lastGeneration.push(deadGuy);
           break;
@@ -122,11 +133,11 @@ function draw() {
 
   if (guys.length == 0) {
     currentScore = 0;
-    lastObstacleMovingLeft = -500;
     lastObstacleMovingDown = 0;
-    nextGeneration();
+    nextGeneration(bestBrain);
     generationCount++;
     gameLogicCounter = 0;
+    lastObstacleMovingLeft = -150;
   }
 
 }
