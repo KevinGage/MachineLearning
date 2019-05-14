@@ -1,1 +1,1 @@
-A simple game I made to test some machine learning methods
+Trying to use neural networks and a genetic algorithm to solve dodger
