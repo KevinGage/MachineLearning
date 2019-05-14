@@ -1,11 +1,12 @@
-function nextGeneration() {
+function nextGeneration(bestBrain) {
   console.log('next generation');
   calculateFitness();
 
-  //console.log(savedBirds.length);
-  for (let i = 0; i < totalPopulation; i++) {
+  for (let i = 0; i < totalPopulation - 1; i++) {
     guys[i] = pickOne();
   }
+
+  guys.push(new Guy(bestBrain, true));
 
   for (let i = 0; i < lastGeneration.length; i++) {
     lastGeneration[i].dispose();
