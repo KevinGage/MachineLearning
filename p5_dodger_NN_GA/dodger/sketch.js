@@ -110,7 +110,7 @@ function draw() {
       guy.think(obstacles);
       guy.update();
 
-      if (guys[i].offScreen()) {
+      if (guy.offScreen()) {
         if (currentScore > highScore) {
           highScore = currentScore;
           bestBrain = guy.brain.copy();
@@ -121,7 +121,7 @@ function draw() {
       }
 
       for (let j = 0; j < obstacles.length; j++) {
-        if (obstacles[j].hits(guys[i])) {
+        if (obstacles[j].hits(guy)) {
           if (currentScore > highScore) {
             highScore = currentScore;
             bestBrain = guy.brain.copy();
