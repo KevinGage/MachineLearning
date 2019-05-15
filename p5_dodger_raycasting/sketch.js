@@ -75,6 +75,11 @@ function draw() {
     obstacles[i].update();
     obstacles[i].show();
 
+    guy.look(obstacles[i].leftBorder);
+    guy.look(obstacles[i].rightBorder);
+    guy.look(obstacles[i].topBorder);
+    guy.look(obstacles[i].bottomBorder);
+
     if (obstacles[i].offscreen()) {
       obstacles.splice(i, 1);
     }
