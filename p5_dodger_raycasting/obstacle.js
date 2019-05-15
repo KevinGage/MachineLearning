@@ -29,6 +29,12 @@ class Obstacle {
       this.velocityX = 0;
       this.velocityY = 3;
     }
+
+    this.leftBorder = new Boundary(this.x, this.y, this.x, this.y + this.height);
+    this.rightBorder = new Boundary(this.x + this.width, this.y, this.x + this.width, this.y + this.height);
+    this.topBorder = new Boundary(this.x, this.y, this.x + this.width, this.y);
+    this.bottomBorder = new Boundary(this.x, this.y + this.height, this.x + this.width, this.y + this.height);
+
   }
 
   offscreen() {
@@ -51,6 +57,11 @@ class Obstacle {
   update() {
     this.x += this.velocityX;
     this.y += this.velocityY;
+
+    this.leftBorder.setPos(this.x, this.y, this.x, this.y + this.height);
+    this.rightBorder.setPos(this.x + this.width, this.y, this.x + this.width, this.y + this.height);
+    this.topBorder.setPos(this.x, this.y, this.x + this.width, this.y);
+    this.bottomBorder.setPos(this.x, this.y + this.height, this.x + this.width, this.y + this.height);
   }
 
   hits(guy) {
