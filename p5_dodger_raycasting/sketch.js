@@ -1,12 +1,12 @@
-var guy;
-var walls;
-var obstacles;
-var score;
-var highscore;
+let guy;
+let walls;
+let obstacles;
+let score;
+let highscore;
 
 function setup() {
   // put setup code here
-  var canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
   canvas.style('display', 'block');
   background(0);
 
