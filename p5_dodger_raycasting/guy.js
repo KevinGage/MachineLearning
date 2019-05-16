@@ -17,6 +17,8 @@ class Guy {
 
     this.upLeftEye = new VisionRay(this.x, this.y, 270);
     this.upRightEye = new VisionRay(this.x + this.width, this.y, 270);
+    this.downLeftEye = new VisionRay(this.x, this.y + this.height, 90);
+    this.downRightEye = new VisionRay(this.x + this.width, this.y + this.height, 90);
     this.rightTopEye = new VisionRay(this.x + this.width, this.y + this.height * .75, 0);
     this.rightBottomEye = new VisionRay(this.x + this.width, this.y + this.height * .25, 0);
     this.leftTopEye = new VisionRay(this.x, this.y + this.height * .75, 180);
@@ -24,6 +26,8 @@ class Guy {
 
     this.eyes.push(this.upLeftEye);
     this.eyes.push(this.upRightEye);
+    this.eyes.push(this.downLeftEye);
+    this.eyes.push(this.downRightEye);
     this.eyes.push(this.rightTopEye);
     this.eyes.push(this.rightBottomEye);
     this.eyes.push(this.leftTopEye);
@@ -131,6 +135,8 @@ class Guy {
     //Update eye position
     this.upLeftEye.setPos(this.x, this.y);
     this.upRightEye.setPos(this.x + this.width, this.y);
+    this.downLeftEye.setPos(this.x, this.y + this.height);
+    this.downRightEye.setPos(this.x + this.width, this.y + this.height);
     this.rightTopEye.setPos(this.x + this.width, this.y + this.height * .75);
     this.rightBottomEye.setPos(this.x + this.width, this.y + this.height * .25);
     this.leftTopEye.setPos(this.x, this.y + this.height * .75);
