@@ -1,6 +1,6 @@
 class Obstacle {
   constructor(side) {
-    this.color = 'blue';
+    this.color = 'black';
     this.width = 64;
     this.height = this.width;
     let rng = random();

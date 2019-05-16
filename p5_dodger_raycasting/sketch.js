@@ -85,8 +85,6 @@ function draw() {
   boundaries = [];
 
   for (let wall of walls) {
-    wall.show();
-    // guy.look(walls[i]);
     boundaries.push(wall);
   }
 
