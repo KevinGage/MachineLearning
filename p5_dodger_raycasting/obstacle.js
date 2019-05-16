@@ -10,7 +10,7 @@ class Obstacle {
       if (rng < 0.5) {
         this.y = height - this.height;
       } else {
-        this.y = height - (this.height * 2);
+        this.y = height - (this.height * 2 + 5);
       }
       this.velocityX = -5;
       this.velocityY = 0;
@@ -19,7 +19,7 @@ class Obstacle {
       if (rng < 0.5) {
         this.y = height - this.height;
       } else {
-        this.y = height - (this.height * 2);
+        this.y = height - (this.height * 2 + 5);
       }
       this.velocityX = 5;
       this.velocityY = 0;
