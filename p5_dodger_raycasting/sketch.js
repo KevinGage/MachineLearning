@@ -10,10 +10,11 @@ function setup() {
   canvas.style('display', 'block');
   background(0);
 
-  let leftWall = new Boundary(1, 1, 1, height - 1);
-  let rightWall = new Boundary(width - 1, 1, width - 1, height - 1);
-  let topWall = new Boundary(1, 1, width - 1, 1);
-  walls = [leftWall, rightWall, topWall];
+  let leftWall = new Boundary(0, 0, 0, height);
+  let rightWall = new Boundary(width, 0, width, height);
+  let topWall = new Boundary(0, 0, width, 0);
+  let bottomWall = new Boundary(0, height * 2 , width, height * 2);
+  walls = [leftWall, rightWall, topWall, bottomWall];
 
   let boundaries = [];
 
