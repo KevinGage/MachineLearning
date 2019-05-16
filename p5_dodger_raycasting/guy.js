@@ -64,21 +64,34 @@ class Guy {
     this.height = this.width * 2;
   }
 
-  look(boundary) {
-    let points = [];
-
-    for (let i = 0; i < this.eyes.length; i++) {
-      let pt = this.eyes[i].check(boundary);
-      if (pt) {
-        points.push(pt);
-      }
-    }
+  look(boundaries) {
     push();
     stroke(255);
+    let points = [];
 
-    for (let i = 0; i < points.length; i++) {
-      ellipse(points[i].x, points[i].y, 10, 10);
+    for (let eye of this.eyes) {
+      let smallestDistance = Infinity;
+      let closestPoint = null;
+
+      for (let boundary of boundaries) {
+        let pt = eye.check(boundary);
+        if (pt) {
+          let distance = dist(eye.pos.x, eye.pos.y, pt.x, pt.y);
+          if (distance < smallestDistance) {
+            smallestDistance = distance
+            closestPoint = pt;
+          }
+        }
+      }
+      if (closestPoint) {
+        points.push(closestPoint);
+      }
     }
+
+    for (let point of points) {
+      ellipse(point.x, point.y, 10, 10);
+    }
+
     pop();
   }
 

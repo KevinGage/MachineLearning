@@ -15,6 +15,8 @@ function setup() {
   let topWall = new Boundary(1, 1, width - 1, 1);
   walls = [leftWall, rightWall, topWall];
 
+  let boundaries = [];
+
   guy = new Guy();
   obstacles = [];
   score = 0;
@@ -50,11 +52,6 @@ function draw() {
   guy.update();
   guy.show();
 
-  for (let i = 0; i < walls.length; i++) {
-    walls[i].show();
-    guy.look(walls[i]);
-  }
-
   if (frameCount % 100 == 0) {
     let rng = random(3);
     if (rng < 1) {
@@ -75,11 +72,6 @@ function draw() {
     obstacles[i].update();
     obstacles[i].show();
 
-    guy.look(obstacles[i].leftBorder);
-    guy.look(obstacles[i].rightBorder);
-    guy.look(obstacles[i].topBorder);
-    guy.look(obstacles[i].bottomBorder);
-
     if (obstacles[i].offscreen()) {
       obstacles.splice(i, 1);
     }
@@ -88,6 +80,23 @@ function draw() {
       score = 0;
     }
   }
+
+  boundaries = [];
+
+  for (let wall of walls) {
+    wall.show();
+    // guy.look(walls[i]);
+    boundaries.push(wall);
+  }
+
+  for (let obstacle of obstacles) {
+    boundaries.push(obstacle.leftBorder);
+    boundaries.push(obstacle.rightBorder);
+    boundaries.push(obstacle.topBorder);
+    boundaries.push(obstacle.bottomBorder);
+  }
+
+  guy.look(boundaries);
 
   push();
   fill('yellow');
