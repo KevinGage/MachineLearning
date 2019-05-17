@@ -1,6 +1,7 @@
 let guy;
 let walls;
 let obstacles;
+let boundaries;
 let score;
 let highscore;
 
@@ -16,7 +17,7 @@ function setup() {
   let bottomWall = new Boundary(0, height * 2 , width, height * 2);
   walls = [leftWall, rightWall, topWall, bottomWall];
 
-  let boundaries = [];
+  boundaries = [];
 
   guy = new Guy();
   obstacles = [];
