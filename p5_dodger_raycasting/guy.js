@@ -15,14 +15,14 @@ class Guy {
 
     this.eyes = [];
 
-    this.upLeftEye = new VisionRay(this.x, this.y, 270);
-    this.upRightEye = new VisionRay(this.x + this.width, this.y, 270);
-    this.downLeftEye = new VisionRay(this.x, this.y + this.height, 90);
-    this.downRightEye = new VisionRay(this.x + this.width, this.y + this.height, 90);
-    this.rightTopEye = new VisionRay(this.x + this.width, this.y + this.height * .75, 0);
-    this.rightBottomEye = new VisionRay(this.x + this.width, this.y + this.height * .25, 0);
-    this.leftTopEye = new VisionRay(this.x, this.y + this.height * .75, 180);
-    this.leftBottomEye = new VisionRay(this.x, this.y + this.height * .25, 180);
+    this.upLeftEye = new Eye(this.x, this.y, 0, 0, 270);
+    this.upRightEye = new Eye(this.x, this.y, this.width, 0, 270);
+    this.downLeftEye = new Eye(this.x, this.y, 0, this.height, 90);
+    this.downRightEye = new Eye(this.x, this.y, this.width, this.height, 90);
+    this.rightTopEye = new Eye(this.x, this.y, this.width, this.height * .25, 0);
+    this.rightBottomEye = new Eye(this.x, this.y, this.width, this.height * .75, 0);
+    this.leftTopEye = new Eye(this.x, this.y, 0, this.height * .25, 180);
+    this.leftBottomEye = new Eye(this.x, this.y, 0, this.height * .75, 180);
 
     this.eyes.push(this.upLeftEye);
     this.eyes.push(this.upRightEye);
@@ -133,13 +133,8 @@ class Guy {
     }
 
     //Update eye position
-    this.upLeftEye.setPos(this.x, this.y);
-    this.upRightEye.setPos(this.x + this.width, this.y);
-    this.downLeftEye.setPos(this.x, this.y + this.height);
-    this.downRightEye.setPos(this.x + this.width, this.y + this.height);
-    this.rightTopEye.setPos(this.x + this.width, this.y + this.height * .75);
-    this.rightBottomEye.setPos(this.x + this.width, this.y + this.height * .25);
-    this.leftTopEye.setPos(this.x, this.y + this.height * .75);
-    this.leftBottomEye.setPos(this.x, this.y + this.height * .25);
+    for (let eye of this.eyes) {
+      eye.setPos(this.x, this.y);
+    }
   }
 }
