@@ -16,20 +16,28 @@ class Guy {
     this.eyes = [];
 
     this.upLeftEye = new Eye(this, 0, 0, 270);
+    this.upCenterEye = new Eye(this, 0.5, 0, 270),
     this.upRightEye = new Eye(this, 1, 0, 270);
     this.downLeftEye = new Eye(this, 0, 1, 90);
+    this.downCenterEye = new Eye(this, 0.5, 1, 90);
     this.downRightEye = new Eye(this, 1, 1, 90);
+    this.rightFloatingEye = new Eye(this, 1, -.25, 0);
     this.rightTopEye = new Eye(this, 1, .25, 0);
     this.rightBottomEye = new Eye(this, 1, .75, 0);
+    this.leftFloatingEye = new Eye(this, 0, -.25, 180);
     this.leftTopEye = new Eye(this, 0, .25, 180);
     this.leftBottomEye = new Eye(this, 0, .75, 180);
 
     this.eyes.push(this.upLeftEye);
+    this.eyes.push(this.upCenterEye);
     this.eyes.push(this.upRightEye);
     this.eyes.push(this.downLeftEye);
+    this.eyes.push(this.downCenterEye);
     this.eyes.push(this.downRightEye);
+    this.eyes.push(this.rightFloatingEye);
     this.eyes.push(this.rightTopEye);
     this.eyes.push(this.rightBottomEye);
+    this.eyes.push(this.leftFloatingEye);
     this.eyes.push(this.leftTopEye);
     this.eyes.push(this.leftBottomEye);
   }
