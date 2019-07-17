@@ -14,6 +14,11 @@ class Obstacle {
       }
       this.velocityX = -5;
       this.velocityY = 0;
+    } else if (side === 'right_low') {
+      this.x = width - this.width;
+      this.y = height - this.height;
+      this.velocityX = -5;
+      this.velocityY = 0;
     } else if (side === 'left') {
       this.x = 0;
       if (rng < 0.5) {
