@@ -18,6 +18,7 @@ let aliveSpan;
 let gameLogicCounter = 0;
 
 let lastObstacleMovingLeft = -150;
+let lastObstacleMovingRight = -150;
 let lastObstacleMovingDown = 0;
 
 let pauseButton;
@@ -94,6 +95,13 @@ function draw() {
       lastObstacleMovingLeft = 0;
     } else {
       lastObstacleMovingLeft++;
+    }
+
+    if (lastObstacleMovingRight > 90 && random() < 0.01 ) {
+      obstacles.push(new Obstacle('left'));
+      lastObstacleMovingRight = 0;
+    } else {
+      lastObstacleMovingRight++;
     }
 
     if (lastObstacleMovingLeft == -1) {
@@ -179,6 +187,7 @@ function draw() {
     generationCount++;
     gameLogicCounter = 0;
     lastObstacleMovingLeft = -150;
+    lastObstacleMovingRight = -150;
   }
 
 }
