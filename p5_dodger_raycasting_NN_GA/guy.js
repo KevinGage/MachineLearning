@@ -50,36 +50,38 @@ class Guy {
       }
     } else {
       //Nerual network 4 inputs 8 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(30, 60, 60, 60, 4);
+      this.brain = new NeuralNetwork(30, 60, 60, 4);
     }
 
     this.color = this.getColor();
   }
 
   getColor() {
-    // let colorCode = [255,255,255];
-    // const weightValues = this.brain.getWeights();
+    let colorCode = [255,255,255];
+    const weightValues = this.brain.getWeights();
 
-    // let colorVal0 = 0;
-    // let colorVal1 = 0;
-    // let colorVal2 = 0;
-    // for (let weight of weightValues[0]) {
-    //   colorVal0 += weight;
-    // }
-    // for (let weight of weightValues[1]) {
-    //   colorVal1 += weight;
-    // }
-    // for (let weight of weightValues[2]) {
-    //   colorVal2 += weight;
-    // }
+    // console.log(JSON.stringify(weightValues[0]));
+    // noLoop();
+    let colorVal0 = 0;
+    let colorVal1 = 0;
+    let colorVal2 = 0;
+    for (let weight of weightValues[0]) {
+      colorVal0 += weight;
+    }
+    for (let weight of weightValues[2]) {
+      colorVal1 += weight;
+    }
+    for (let weight of weightValues[4]) {
+      colorVal2 += weight;
+    }
 
-    // colorCode[0] = map(colorVal0, (-1 * weightValues[0].length), weightValues[0].length, 0, 255);
-    // colorCode[1] = map(colorVal1, (-1 * weightValues[1].length), weightValues[1].length, 0, 255);
-    // colorCode[2] = map(colorVal2, (-1 * weightValues[2].length), weightValues[2].length, 0, 255);
+    colorCode[0] = map(colorVal0, -1, 1, 0, 255);
+    colorCode[1] = map(colorVal1, -1, 1, 0, 255);
+    colorCode[2] = map(colorVal2, -1, 1, 0, 255);
     
-    // return colorCode;
+    return colorCode;
 
-    return 'green';
+    // return 'green';
   }
 
   think(boundaries) {
