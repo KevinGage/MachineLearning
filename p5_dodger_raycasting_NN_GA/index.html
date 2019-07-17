@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dodger</title>
+    <style> body {padding: 0; margin: 0;} </style>
+    <script src="../p5/p5.min.js"></script>
+    <script src="../p5/addons/p5.dom.min.js"></script>
+    <script src="sketch.js"></script>
+    <script src="guy.js"></script>
+    <script src="obstacle.js"></script>
+    <script src="neuralnetwork.js"></script>
+    <script src="geneticalgorithm.js"></script>
+    <script src="boundary.js"></script>
+    <script src="vision_ray.js"></script>
+    <script src="eye.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.4/dist/tf.min.js"></script>
+  </head>
+  <body>
+      <div id='canvascontainer'></div>
+      <p>
+        speed: <input id="speedSlider" type="range" min="1" max="10" value="1"> <span id="speed">1</span>
+        <br/> alive: <span id="al">0</span>
+        <br/> generation: <span id="gen">1</span>
+        <br/> current score: <span id="cs">0</span>
+        <br/> high score: <span id="hs">0</span>
+        <br />
+        <br />
+        <button type="button" id="pauseButton">Pause</button>
+        <button type="button" id="resumeButton">Resume</button>
+        <br />
+        <br /> <button type="button" id="saveButton">Save Guy</button>
+        <br />
+        <br /> <label>BestGuyBrain.json to load: </label><input type="file" id="sm">
+        <br /> <label>BestGuyBrain.weights.bin to load: </label><input type="file" id="sw">
+        <br /> <button type="button" id="loadButton">Load Guy</button>
+      </p>
+  </body>
+</html>
