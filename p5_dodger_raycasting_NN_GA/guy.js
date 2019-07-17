@@ -60,8 +60,6 @@ class Guy {
     let colorCode = [255,255,255];
     const weightValues = this.brain.getWeights();
 
-    // console.log(JSON.stringify(weightValues[0]));
-    // noLoop();
     let colorVal0 = 0;
     let colorVal1 = 0;
     let colorVal2 = 0;
@@ -80,8 +78,6 @@ class Guy {
     colorCode[2] = map(colorVal2, -1, 1, 0, 255);
     
     return colorCode;
-
-    // return 'green';
   }
 
   think(boundaries) {
