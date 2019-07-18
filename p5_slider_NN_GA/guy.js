@@ -4,7 +4,7 @@ class Guy {
     this.height = this.width;
     this.y = (height / 2) - (this.height / 2);
     this.x = (width / 2) - (this.width / 2);
-    this.speed = 5;
+    this.speed = 6;
     this.score = 0;
     this.fitness = 0;
 
@@ -35,7 +35,7 @@ class Guy {
       }
     } else {
       //Nerual network 20 inputs 30 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(20, 20, 10, 4);
+      this.brain = new NeuralNetwork(20, 10, 10, 4);
     }
 
     this.color = this.getColor();
