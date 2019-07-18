@@ -1,0 +1,1 @@
+Trying to use neural networks and a genetic algorithm to solve slider.
