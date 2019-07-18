@@ -50,7 +50,7 @@ class Guy {
       }
     } else {
       //Nerual network 4 inputs 8 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(30, 100, 100, 4);
+      this.brain = new NeuralNetwork(34, 100, 100, 4);
     }
 
     this.color = this.getColor();
@@ -102,7 +102,9 @@ class Guy {
         }
       }
       if (closestPoint) {
-        closestBoundaryDisatances.push(dist(closestPoint.x, closestPoint.y, eye.pos.x, eye.pos.y));
+        //This isn't a great way to normalize the distances.
+        const noramlizedDistance = map(dist(closestPoint.x, closestPoint.y, eye.pos.x, eye.pos.y), 0, width, 0, 1);
+        closestBoundaryDisatances.push(noramlizedDistance);
       }
     }
 
@@ -114,22 +116,25 @@ class Guy {
     inputs[0] = map(this.x, 0, width - this.width, 0, 1);
     // Get own y position, remember ducking...
     inputs[1] = map(this.y, 0, height, 0, 1);
+    // Get own velocities
+    inputs[2] = map(this.velocityX, this.maxVelocityX * -1, this.maxVelocityX, 0, 1);
+    inputs[3] = map(this.velocityY, this.maxVelocityY * -1, this.maxVelocityY, 0, 1);
     // Useful to know if on ground for jumping and ducking
-    inputs[2] = onGround;
+    inputs[4] = onGround;
 
     // Think about each eyes boundary distance.  Assuming 12
-    inputs[3] = closestBoundaryDisatances[0];
-    inputs[4] = closestBoundaryDisatances[1];
-    inputs[5] = closestBoundaryDisatances[2];
-    inputs[6] = closestBoundaryDisatances[3];
-    inputs[7] = closestBoundaryDisatances[4];
-    inputs[8] = closestBoundaryDisatances[5];
-    inputs[9] = closestBoundaryDisatances[6];
-    inputs[10] = closestBoundaryDisatances[7];
-    inputs[11] = closestBoundaryDisatances[8];
-    inputs[12] = closestBoundaryDisatances[9];
-    inputs[13] = closestBoundaryDisatances[10];
-    inputs[14] = closestBoundaryDisatances[11];
+    inputs[5] = closestBoundaryDisatances[0];
+    inputs[6] = closestBoundaryDisatances[1];
+    inputs[7] = closestBoundaryDisatances[2];
+    inputs[8] = closestBoundaryDisatances[3];
+    inputs[9] = closestBoundaryDisatances[4];
+    inputs[10] = closestBoundaryDisatances[5];
+    inputs[11] = closestBoundaryDisatances[6];
+    inputs[12] = closestBoundaryDisatances[7];
+    inputs[13] = closestBoundaryDisatances[8];
+    inputs[14] = closestBoundaryDisatances[9];
+    inputs[15] = closestBoundaryDisatances[10];
+    inputs[16] = closestBoundaryDisatances[11];
 
     // Now think about all of the previous positions
     // This allows for detection of movement direction
@@ -143,21 +148,23 @@ class Guy {
       }
     }
 
-    inputs[15] = this.previousInputs[0];
-    inputs[16] = this.previousInputs[1];
-    inputs[17] = this.previousInputs[2];
-    inputs[18] = this.previousInputs[3];
-    inputs[19] = this.previousInputs[4];
-    inputs[20] = this.previousInputs[5];
-    inputs[21] = this.previousInputs[6];
-    inputs[22] = this.previousInputs[7];
-    inputs[23] = this.previousInputs[8];
-    inputs[24] = this.previousInputs[9];
-    inputs[25] = this.previousInputs[10];
-    inputs[26] = this.previousInputs[11];
-    inputs[27] = this.previousInputs[12];
-    inputs[28] = this.previousInputs[13];
-    inputs[29] = this.previousInputs[14];
+    inputs[17] = this.previousInputs[0];
+    inputs[18] = this.previousInputs[1];
+    inputs[19] = this.previousInputs[2];
+    inputs[20] = this.previousInputs[3];
+    inputs[21] = this.previousInputs[4];
+    inputs[22] = this.previousInputs[5];
+    inputs[23] = this.previousInputs[6];
+    inputs[24] = this.previousInputs[7];
+    inputs[25] = this.previousInputs[8];
+    inputs[26] = this.previousInputs[9];
+    inputs[27] = this.previousInputs[10];
+    inputs[28] = this.previousInputs[11];
+    inputs[29] = this.previousInputs[12];
+    inputs[30] = this.previousInputs[13];
+    inputs[31] = this.previousInputs[14];
+    inputs[32] = this.previousInputs[15];
+    inputs[33] = this.previousInputs[16];
 
     // Get the outputs from the network
     let output = this.brain.predict(inputs);
@@ -178,6 +185,8 @@ class Guy {
     this.previousInputs[12] = inputs[12];
     this.previousInputs[13] = inputs[13];
     this.previousInputs[14] = inputs[14];
+    this.previousInputs[15] = inputs[15];
+    this.previousInputs[16] = inputs[16];
 
     //Make movement decisions
     if (output[0] > 0.5) {
