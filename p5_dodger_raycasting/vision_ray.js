@@ -1,7 +1,9 @@
 class VisionRay {
-  constructor(x, y, angle) {
+  constructor(x, y, angle, fixedX, fixedY) {
     this.pos = createVector(x, y);
     this.dir = p5.Vector.fromAngle(radians(angle));
+    this.fixedX = fixedX;
+    this.fixedY = fixedY;
   }
 
   show() {
@@ -21,8 +23,12 @@ class VisionRay {
   }
 
   setPos(x, y) {
-    this.pos.x = x;
-    this.pos.y = y;
+    if (!this.fixedX){
+      this.pos.x = x;
+    }
+    if (!this.fixedY){
+      this.pos.y = y;
+    }
   }
 
   check(boundary) {

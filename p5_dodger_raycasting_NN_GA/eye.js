@@ -14,8 +14,8 @@ class Eye extends VisionRay{
   //offsetX = 0.5 would mean this eye would be horizontally centered on the parent
   //
   //Any time setPos is called the eye will be reloacted in the correct relative position even if the parent x,y,width,or height change
-  constructor(parent, offsetX, offsetY, angle) {
-    super(parent.x + (parent.width * offsetX), parent.y + (parent.height * offsetY), angle);
+  constructor(parent, offsetX, offsetY, angle, fixedX, fixedY) {
+    super(parent.x + (parent.width * offsetX), parent.y + (parent.height * offsetY), angle, fixedX, fixedY);
 
     this.parent = parent;
     this.offsetX = offsetX;
