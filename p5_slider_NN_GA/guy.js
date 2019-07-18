@@ -35,7 +35,7 @@ class Guy {
       }
     } else {
       //Nerual network 20 inputs 30 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(20, 10, 10, 4);
+      this.brain = new NeuralNetwork(20, 10, 4);
     }
 
     this.color = this.getColor();
@@ -51,10 +51,10 @@ class Guy {
     for (let weight of weightValues[0]) {
       colorVal0 += weight;
     }
-    for (let weight of weightValues[2]) {
+    for (let weight of weightValues[1]) {
       colorVal1 += weight;
     }
-    for (let weight of weightValues[4]) {
+    for (let weight of weightValues[2]) {
       colorVal2 += weight;
     }
 
