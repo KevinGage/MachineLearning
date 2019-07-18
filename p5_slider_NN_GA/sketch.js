@@ -22,6 +22,7 @@ let gameLogicCounter = 0;
 let lastObstacleMovingLeft = -150;
 let lastObstacleMovingRight = -150;
 let lastObstacleMovingDown = 0;
+let lastObstacleMovingUp = 0;
 
 let pauseButton;
 let resumeButton;
@@ -94,14 +95,19 @@ function draw() {
     } else {
       lastObstacleMovingDown++;
     }
-    if (lastObstacleMovingLeft > 90 && random() < 0.01 ) {
+    if (lastObstacleMovingUp > 150 && random() < 0.01) {
+      obstacles.push(new Obstacle('bottom'));
+      lastObstacleMovingUp = 0;
+    } else {
+      lastObstacleMovingUp++;
+    }
+    if (lastObstacleMovingLeft > 150 && random() < 0.01 ) {
       obstacles.push(new Obstacle('right'));
       lastObstacleMovingLeft = 0;
     } else {
       lastObstacleMovingLeft++;
     }
-
-    if (lastObstacleMovingRight > 90 && random() < 0.01 ) {
+    if (lastObstacleMovingRight > 150 && random() < 0.01 ) {
       obstacles.push(new Obstacle('left'));
       lastObstacleMovingRight = 0;
     } else {
