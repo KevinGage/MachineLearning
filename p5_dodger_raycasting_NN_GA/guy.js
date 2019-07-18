@@ -17,18 +17,18 @@ class Guy {
 
     this.eyes = [];
 
-    this.upLeftEye = new Eye(this, 0, 0, 270);
-    this.upCenterEye = new Eye(this, 0.5, 0, 270),
-    this.upRightEye = new Eye(this, 1, 0, 270);
-    this.downLeftEye = new Eye(this, 0, 1, 90);
-    this.downCenterEye = new Eye(this, 0.5, 1, 90);
-    this.downRightEye = new Eye(this, 1, 1, 90);
-    this.rightFloatingEye = new Eye(this, 1, -.25, 0);
-    this.rightTopEye = new Eye(this, 1, .25, 0);
-    this.rightBottomEye = new Eye(this, 1, .75, 0);
-    this.leftFloatingEye = new Eye(this, 0, -.25, 180);
-    this.leftTopEye = new Eye(this, 0, .25, 180);
-    this.leftBottomEye = new Eye(this, 0, .75, 180);
+    this.upLeftEye = new Eye(this, 0, 0, 270, false, false);
+    this.upCenterEye = new Eye(this, 0.5, 0, 270, false, false),
+    this.upRightEye = new Eye(this, 1, 0, 270, false, false);
+    this.downLeftEye = new Eye(this, 0, 1, 90, false, false);
+    this.downCenterEye = new Eye(this, 0.5, 1, 90, false, false);
+    this.downRightEye = new Eye(this, 1, 1, 90, false, false);
+    this.rightFloatingEye = new Eye(this, 1, -.25, 0, false, true);
+    this.rightTopEye = new Eye(this, 1, .25, 0, false, true);
+    this.rightBottomEye = new Eye(this, 1, .75, 0, false, true);
+    this.leftFloatingEye = new Eye(this, 0, -.25, 180, false, true);
+    this.leftTopEye = new Eye(this, 0, .25, 180, false, true);
+    this.leftBottomEye = new Eye(this, 0, .75, 180, false, true);
 
     this.eyes.push(this.upLeftEye);
     this.eyes.push(this.upCenterEye);
@@ -50,7 +50,7 @@ class Guy {
       }
     } else {
       //Nerual network 4 inputs 8 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(30, 60, 60, 4);
+      this.brain = new NeuralNetwork(30, 100, 100, 4);
     }
 
     this.color = this.getColor();
@@ -255,34 +255,34 @@ class Guy {
   }
 
   look(boundaries) {
-    // push();
-    // stroke(255);
-    // let points = [];
+    push();
+    stroke(255);
+    let points = [];
 
-    // for (let eye of this.eyes) {
-    //   let smallestDistance = Infinity;
-    //   let closestPoint = null;
+    for (let eye of this.eyes) {
+      let smallestDistance = Infinity;
+      let closestPoint = null;
 
-    //   for (let boundary of boundaries) {
-    //     let pt = eye.check(boundary);
-    //     if (pt) {
-    //       let distance = dist(eye.pos.x, eye.pos.y, pt.x, pt.y);
-    //       if (distance < smallestDistance) {
-    //         smallestDistance = distance
-    //         closestPoint = pt;
-    //       }
-    //     }
-    //   }
-    //   if (closestPoint) {
-    //     points.push(closestPoint);
-    //   }
-    // }
+      for (let boundary of boundaries) {
+        let pt = eye.check(boundary);
+        if (pt) {
+          let distance = dist(eye.pos.x, eye.pos.y, pt.x, pt.y);
+          if (distance < smallestDistance) {
+            smallestDistance = distance
+            closestPoint = pt;
+          }
+        }
+      }
+      if (closestPoint) {
+        points.push(closestPoint);
+      }
+    }
 
-    // for (let point of points) {
-    //   ellipse(point.x, point.y, 10, 10);
-    // }
+    for (let point of points) {
+      ellipse(point.x, point.y, 10, 10);
+    }
 
-    // pop();
+    pop();
   }
 
   update() {

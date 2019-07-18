@@ -8,6 +8,8 @@ let obstacles = [];
 let score;
 let highscore;
 let speedSlider;
+let hideEverything;
+let showDebug;
 let speedSpan;
 let currentScore = 0;
 let highScore = 0;
@@ -35,6 +37,8 @@ function setup() {
   var canvas = createCanvas(640, 480);
   canvas.parent('canvascontainer');
   speedSlider = select('#speedSlider');
+  hideEverything = select('#he');
+  showDebug = select('#db');
   speedSpan = select('#speed');
   generationSpan = select('#gen');
   aliveSpan = select('#al');
@@ -165,19 +169,23 @@ function draw() {
     gameLogicCounter++;
   }
 
-  //Draw everything
-  currentScoreSpan.html(currentScore);
-  highScoreSpan.html(highScore);
-  generationSpan.html(generationCount);
-  aliveSpan.html(guys.length);
+  if (!hideEverything.checked()) {
+    //Draw everything
+    currentScoreSpan.html(currentScore);
+    highScoreSpan.html(highScore);
+    generationSpan.html(generationCount);
+    aliveSpan.html(guys.length);
 
-  for (let i = 0; i < obstacles.length; i++) {
-    obstacles[i].show();
-  }
+    for (let i = 0; i < obstacles.length; i++) {
+      obstacles[i].show();
+    }
 
-  for (let i = 0; i < guys.length; i++) {
-    guys[i].show();
-    guys[i].look(boundaries);
+    for (let i = 0; i < guys.length; i++) {
+      guys[i].show();
+      if(showDebug.checked()) {
+        guys[i].look(boundaries);
+      }
+    }
   }
 
   if (guys.length == 0) {
