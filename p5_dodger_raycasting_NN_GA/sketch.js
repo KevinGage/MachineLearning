@@ -34,7 +34,7 @@ let bestBrain = {};
 
 function setup() {
   // put setup code here
-  var canvas = createCanvas(640, 480);
+  var canvas = createCanvas(550, 550);
   canvas.parent('canvascontainer');
   speedSlider = select('#speedSlider');
   hideEverything = select('#he');
