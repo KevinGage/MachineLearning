@@ -7,21 +7,13 @@ class Obstacle {
 
     if (side === 'right') {
       this.x = width - this.width;
-      if (rng < 0.5) {
-        this.y = height - this.height;
-      } else {
-        this.y = height - (this.height * 2 + 5);
-      }
-      this.velocityX = -5;
+      this.y = random(height - this.height);
+      this.velocityX = -3;
       this.velocityY = 0;
     } else if (side === 'left') {
       this.x = 0;
-      if (rng < 0.5) {
-        this.y = height - this.height;
-      } else {
-        this.y = height - (this.height * 2 + 5);
-      }
-      this.velocityX = 5;
+      this.y = random(height - this.height);
+      this.velocityX = 3;
       this.velocityY = 0;
     } else if (side === 'top') {
       this.x = random(width - this.width);
