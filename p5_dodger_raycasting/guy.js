@@ -15,18 +15,18 @@ class Guy {
 
     this.eyes = [];
 
-    this.upLeftEye = new Eye(this, 0, 0, 270);
-    this.upCenterEye = new Eye(this, 0.5, 0, 270),
-    this.upRightEye = new Eye(this, 1, 0, 270);
-    this.downLeftEye = new Eye(this, 0, 1, 90);
-    this.downCenterEye = new Eye(this, 0.5, 1, 90);
-    this.downRightEye = new Eye(this, 1, 1, 90);
-    this.rightFloatingEye = new Eye(this, 1, -.25, 0);
-    this.rightTopEye = new Eye(this, 1, .25, 0);
-    this.rightBottomEye = new Eye(this, 1, .75, 0);
-    this.leftFloatingEye = new Eye(this, 0, -.25, 180);
-    this.leftTopEye = new Eye(this, 0, .25, 180);
-    this.leftBottomEye = new Eye(this, 0, .75, 180);
+    this.upLeftEye = new Eye(this, 0, 0, 270, false, false);
+    this.upCenterEye = new Eye(this, 0.5, 0, 270, false, false),
+    this.upRightEye = new Eye(this, 1, 0, 270, false, false);
+    this.downLeftEye = new Eye(this, 0, 1, 90, false, false);
+    this.downCenterEye = new Eye(this, 0.5, 1, 90, false, false);
+    this.downRightEye = new Eye(this, 1, 1, 90, false, false);
+    this.rightFloatingEye = new Eye(this, 1, -.25, 0, false, false);
+    this.rightTopEye = new Eye(this, 1, .25, 0, false, false);
+    this.rightBottomEye = new Eye(this, 1, .75, 0, false, false);
+    this.leftFloatingEye = new Eye(this, 0, -.25, 180, false, false);
+    this.leftTopEye = new Eye(this, 0, .25, 180, false, false);
+    this.leftBottomEye = new Eye(this, 0, .75, 180, false, false);
 
     this.eyes.push(this.upLeftEye);
     this.eyes.push(this.upCenterEye);
