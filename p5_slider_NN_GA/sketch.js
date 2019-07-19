@@ -192,6 +192,7 @@ function draw() {
 
   if (guys.length == 0) {
     currentScore = 0;
+    highScoreSpan.html(highScore);
     lastObstacleMovingDown = 0;
     nextGeneration(bestBrain);
     generationCount++;
