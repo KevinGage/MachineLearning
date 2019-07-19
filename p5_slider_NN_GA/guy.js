@@ -35,7 +35,7 @@ class Guy {
       }
     } else {
       //Nerual network 20 inputs 30 hidden nodes 4 outputs
-      this.brain = new NeuralNetwork(20, 10, 4);
+      this.brain = new NeuralNetwork(20, 30, 4);
     }
 
     this.color = this.getColor();
