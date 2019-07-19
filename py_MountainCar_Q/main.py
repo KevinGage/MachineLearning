@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import gym
 import numpy as np
+import matplotlib.pyplot as plt
 
 # import the game
 env = gym.make("MountainCar-v0")
@@ -58,6 +59,10 @@ EPSILON_DECAY_VALUE = epsilon / (END_ESPILON_DECAYING - START_ESPILON_DECAYING)
 # | [all 20 possible values][all 20 possible values] |[all 20 possible values][all 20 possible values] |[all 20 possible values][all 20 possible values]
 q_table = np.random.uniform(low=-2, high=0, size=(DISCRETE_OS_SIZE + [env.action_space.n]))
 
+# track some metrics about performance
+ep_rewards = []
+aggr_ep_rewards = {'ep': [], 'avg': [], 'min': [], 'max': []}
+
 # define a function that takes in a game state
 # it returns a tupple that contains the current state positions fit into the window ranges 
 def get_discrete_state(state):
@@ -66,6 +71,9 @@ def get_discrete_state(state):
 
 
 for episode in range(EPISODES):
+    # set default episode reward value.  This is just for metrics.  Doesnt impact logic
+    episode_reward = 0
+
     # show debug output
     if episode % SHOW_EVERY== 0:
         render = True
@@ -96,6 +104,9 @@ for episode in range(EPISODES):
         
         # perform an action in the game and receive the new state, reward, and done information
         new_state, reward, done, _ = env.step(action)
+
+        #record reward value.  Just for metrics doesnt impact anything
+        episode_reward += reward
 
         # convert the new state to the window ranges
         new_discrete_state = get_discrete_state(new_state)
@@ -131,4 +142,24 @@ for episode in range(EPISODES):
     if END_ESPILON_DECAYING >= episode >= START_ESPILON_DECAYING:
         epsilon -= EPSILON_DECAY_VALUE
 
+    # for metrics record the rewards
+    ep_rewards.append(episode_reward)
+
+    # when to show the metrics
+    if not episode % SHOW_EVERY:
+        average_reward = sum(ep_rewards[-SHOW_EVERY:])/len(ep_rewards[-SHOW_EVERY:])
+        aggr_ep_rewards['ep'].append(episode)
+        aggr_ep_rewards['avg'].append(average_reward)
+        aggr_ep_rewards['min'].append(min(ep_rewards[-SHOW_EVERY:]))
+        aggr_ep_rewards['max'].append(max(ep_rewards[-SHOW_EVERY:]))
+
+        print(f"Episode: {episode} avg: {average_reward} min: {min(ep_rewards[-SHOW_EVERY:])} max: {max(ep_rewards[-SHOW_EVERY:])}")
+
 env.close()
+
+# plot metrics
+plt.plot(aggr_ep_rewards['ep'], aggr_ep_rewards['avg'], label="avg")
+plt.plot(aggr_ep_rewards['ep'], aggr_ep_rewards['min'], label="min")
+plt.plot(aggr_ep_rewards['ep'], aggr_ep_rewards['max'], label="max")
+plt.legend(loc=4)
+plt.show()
