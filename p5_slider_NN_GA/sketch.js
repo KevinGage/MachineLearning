@@ -175,7 +175,6 @@ function draw() {
     //Draw everything
     currentScoreSpan.html(currentScore);
     highScoreSpan.html(highScore);
-    generationSpan.html(generationCount);
     aliveSpan.html(guys.length);
 
     for (let i = 0; i < obstacles.length; i++) {
@@ -199,6 +198,7 @@ function draw() {
     gameLogicCounter = 0;
     lastObstacleMovingLeft = -150;
     lastObstacleMovingRight = -150;
+    generationSpan.html(generationCount);
   }
 
 }
