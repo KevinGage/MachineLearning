@@ -1,16 +1,22 @@
 class NeuralNetwork {
-  constructor(a, b, c, d) {
+  constructor(a, b, c, d, e, f, g) {
     //If passing in weights from a previous model then use them to create a new model, used by copy
     //If passing in new nodes use them to create a new model
     if (a instanceof tf.Sequential){
       this.model = a;
       this.input_nodes = b;
       this.hidden_nodes_1 = c;
-      this.output_nodes = d;
+      this.hidden_nodes_2 = d;
+      this.hidden_nodes_3 = e;
+      this.hidden_nodes_4 = f;
+      this.output_nodes = g;
     } else {
       this.input_nodes = a;
       this.hidden_nodes_1 = b;
-      this.output_nodes = c;
+      this.hidden_nodes_2 = c;
+      this.hidden_nodes_3 = d;
+      this.hidden_nodes_4 = e;
+      this.output_nodes = f;
       this.model = this.createModel();
     }
   }
@@ -27,6 +33,33 @@ class NeuralNetwork {
     });
     //Add hidden layer to model
     model.add(hidden1);
+
+    //Create a hidden perceptron layer that takes in input nodes and squashes outputs to 0 or 1 using sigmoid
+    const hidden2 = tf.layers.dense({
+      units: this.hidden_nodes_2,
+      inputShape: [this.hidden_nodes_1],
+      activation: 'sigmoid'
+    });
+    //Add hidden layer to model
+    model.add(hidden2);
+
+    //Create a hidden perceptron layer that takes in input nodes and squashes outputs to 0 or 1 using sigmoid
+    const hidden3 = tf.layers.dense({
+      units: this.hidden_nodes_3,
+      inputShape: [this.hidden_nodes_2],
+      activation: 'sigmoid'
+    });
+    //Add hidden layer to model
+    model.add(hidden3);
+
+    //Create a hidden perceptron layer that takes in input nodes and squashes outputs to 0 or 1 using sigmoid
+    const hidden4 = tf.layers.dense({
+      units: this.hidden_nodes_4,
+      inputShape: [this.hidden_nodes_3],
+      activation: 'sigmoid'
+    });
+    //Add hidden layer to model
+    model.add(hidden4);
 
     //Create output later that squashes all values to a percentage that adds up to 1
     const output = tf.layers.dense({
@@ -80,6 +113,9 @@ class NeuralNetwork {
       return new NeuralNetwork(modelCopy, 
         this.input_nodes, 
         this.hidden_nodes_1,
+        this.hidden_nodes_2,
+        this.hidden_nodes_3,
+        this.hidden_nodes_4,
         this.output_nodes
       );
     });
