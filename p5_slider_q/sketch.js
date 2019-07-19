@@ -8,6 +8,23 @@ const startEpsilonDecaying = 1;
 const endEpsilonDecaying = Math.floor(episodes / 2);
 const epsilonDecayValue = epsilon / (endEpsilonDecaying - startEpsilonDecaying);
 
+// DETERMINE SIZE OF Q TABLE
+// Here are the inputs that I think I will use
+// each of the eye to point distances for 8 eyes.  So 8 numbers between width and 0
+// player x and player y
+// turn number
+
+// Here are the rewards that I think I will use
+// player moves and doesnt die, turn incriments, +1
+// player moves and dies, -200
+// turn incriments to turn number 200, +200
+
+// Here are rules of the game
+// player spawns in middle
+// each turn player must move, so x4 decision options
+// blocks spawn randomly
+// if player makes it to the final turn they get the bonus reward
+
 let player;
 let walls;
 let boundaries;
