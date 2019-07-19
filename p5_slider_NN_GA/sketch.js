@@ -17,7 +17,7 @@ let currentScoreSpan;
 let highScoreSpan;
 let generationSpan;
 let aliveSpan;
-let gameLogicCounter = 0;
+let gameLogicCounter = -100;
 
 let lastObstacleMovingLeft = -150;
 let lastObstacleMovingRight = -150;
@@ -83,8 +83,11 @@ function draw() {
   speedSpan.html(cycles);
 
   if (gameLogicCounter == 0) {
-    obstacles.push(new Obstacle('center'));
+    obstacles.push(new Obstacle('center_top'));
     lastObstacleMovingDown = 0;
+  } else if (gameLogicCounter == 100) {
+    obstacles.push(new Obstacle('center_right'));
+    lastObstacleMovingRight = 0;
   }
 
   for (let n = 0; n < cycles; n++) {

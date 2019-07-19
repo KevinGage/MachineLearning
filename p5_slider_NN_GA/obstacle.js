@@ -25,11 +25,16 @@ class Obstacle {
       this.y = height;
       this.velocityX = 0;
       this.velocityY = -3;
-    } else if (side === 'center') {
+    } else if (side === 'center_top') {
       this.x = (width / 2) - (this.width / 2);
       this.y = 0;
       this.velocityX = 0;
       this.velocityY = 3;
+    } else if (side === 'center_right') {
+      this.x = width - this.width;
+      this.y = (height / 2) - (this.height / 2);
+      this.velocityX = -3;
+      this.velocityY = 0;
     }
 
     this.leftBorder = new Boundary(this.x, this.y, this.x, this.y + this.height);
