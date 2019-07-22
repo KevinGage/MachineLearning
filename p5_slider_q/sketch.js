@@ -10,20 +10,23 @@ const epsilonDecayValue = epsilon / (endEpsilonDecaying - startEpsilonDecaying);
 
 // DETERMINE SIZE OF Q TABLE
 // Here are the inputs that I think I will use
-// each of the eye to point distances for 8 eyes.  So 8 numbers between width and 0
+// each of the eye to point distances for 8 eyes.  So 8 numbers between 0 and width
+// the previous values of all 8 eyes
 // player x and player y
-// turn number
+// the previous values of player x and player y
+// goal x and goal y
 
 // Here are the rewards that I think I will use
-// player moves and doesnt die, turn incriments, +1
-// player moves and dies, -200
-// turn incriments to turn number 200, +200
+// player moves and doesnt die, -1
+// player moves and colides with boundary, -200
+// player moves and colides with goal, +200
 
 // Here are rules of the game
 // player spawns in middle
 // each turn player must move, so x4 decision options
 // blocks spawn randomly
-// if player makes it to the final turn they get the bonus reward
+// if player colides with boundary simulation ends
+// if player colides with goal simulation ends
 
 let player;
 let walls;
@@ -76,6 +79,8 @@ function setup() {
   // Add player
   player = new Guy();
 
+  // Create random Q Table
+  qTable = new QTable([[0,height], [0,width], [0,height], [0,width]], 20, 4, -200, 200);
 }
 
 function draw() {
