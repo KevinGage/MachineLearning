@@ -4,7 +4,7 @@ class Guy {
     this.height = this.width;
     this.y = (height / 2) - (this.height / 2);
     this.x = (width / 2) - (this.width / 2);
-    this.color = "green";
+    this.color = "blue";
     this.speed = 6;
 
     this.eyes = [];

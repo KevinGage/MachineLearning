@@ -1,6 +1,6 @@
 class Obstacle {
   constructor(side) {
-    this.color = 'blue';
+    this.color = 'red';
     this.width = 64;
     this.height = this.width;
     let rng = random();
@@ -74,7 +74,6 @@ class Obstacle {
   hits(guy) {
     if (guy.x + guy.width >= this.x && guy.x <= this.x + this.width) {
       if (guy.y + guy.height > this.y && guy.y < this.y + this.height) {
-        this.color = 'red';
         return true;
       } else {
         return false;
