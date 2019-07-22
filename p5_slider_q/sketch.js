@@ -5,10 +5,13 @@
 // the previous values of player x and player y
 // goal x and goal y
 
+// So state array should look like this
+// [a1, b1, c1, d1, e1, f1, g1, h1, a2, b2, c2, d2, e2, f2, g2, h2, x1, y1, x2, y2, gx, gy]
+
 // Here are the rewards that I think I will use
 // player moves and doesnt die, -1
-// player moves and colides with boundary, -200
-// player moves and colides with goal, +200
+// player moves and colides with boundary, -2000
+// player moves and colides with goal, +2000
 
 // Here are rules of the game
 // player spawns in middle
@@ -20,6 +23,8 @@
 const learningRate = 0.1;
 const discount = 0.95;
 const episodes = 25000;
+let currentEpisode = 1;
+let episodeReward = 0;
 const showEvery = 2000;
 let never_solved = true;
 let epsilon = 0.5;
@@ -57,6 +62,8 @@ let saveButton;
 let loadButton;
 let qTableUpload;
 
+let render = false;
+
 function setup() {
   // put setup code here
   var canvas = createCanvas(550, 550);
@@ -86,46 +93,31 @@ function setup() {
   goal = new Goal();
 
   // Create random Q Table
-  qTable = new QTable([[0,height], [0,width], [0,height], [0,width]], 20, 4, -200, 200);
+  const adjustedHeight = height - player.height;
+  const adjustedWidth = width - player.width;
+
+  // trying with only current state, not previous state
+  // still too big for javascript in the browser :(
+  qTable = new QTable([[0,adjustedHeight], [0,adjustedWidth], 
+    [0,adjustedHeight], [0,adjustedWidth], 
+    [0,adjustedHeight], [0,adjustedWidth], 
+    [0,adjustedHeight], [0,adjustedWidth], 
+    [0,adjustedHeight], [0,adjustedWidth], 
+    [0,height - goal.height], [0,width - goal.width]], 
+    20, 4, -2000, 2000);
 }
 
 function draw() {
   // put drawing code here
   background(0);
 
-  if (gameLogicCounter == 0) {
-    obstacles.push(new Obstacle('center_top'));
-    lastObstacleMovingDown = 0;
-  } else if (gameLogicCounter == 100) {
-    obstacles.push(new Obstacle('center_right'));
-    lastObstacleMovingRight = 0;
+  if (currentEpisode % showEvery == 0) {
+    render = true;
+  } else {
+    render = false;
   }
 
-  //Spawn obstacles
-  if (lastObstacleMovingDown > 150 && random() < 0.01) {
-    obstacles.push(new Obstacle('top'));
-    lastObstacleMovingDown = 0;
-  } else {
-    lastObstacleMovingDown++;
-  }
-  if (lastObstacleMovingUp > 150 && random() < 0.01) {
-    obstacles.push(new Obstacle('bottom'));
-    lastObstacleMovingUp = 0;
-  } else {
-    lastObstacleMovingUp++;
-  }
-  if (lastObstacleMovingLeft > 150 && random() < 0.01 ) {
-    obstacles.push(new Obstacle('right'));
-    lastObstacleMovingLeft = 0;
-  } else {
-    lastObstacleMovingLeft++;
-  }
-  if (lastObstacleMovingRight > 150 && random() < 0.01 ) {
-    obstacles.push(new Obstacle('left'));
-    lastObstacleMovingRight = 0;
-  } else {
-    lastObstacleMovingRight++;
-  }
+  spawnObstacle();
 
   boundaries = [];
 
@@ -146,6 +138,19 @@ function draw() {
       boundaries.push(obstacles[i].bottomBorder);
     }
   }
+
+  // BUILD CURRENT STATE OBJECT HERE!!!!!
+  // {}
+
+  // Decide if should explore
+  if (Math.random() > epsilon) {
+    // Take best action
+  } else {
+    // Take random action
+  }
+
+
+
 
   // Update player
   player.update();
@@ -187,6 +192,41 @@ function draw() {
   lastObstacleMovingRight = -150;
   episodeSpan.html("");
   */
+}
+
+function spawnObstacle() {
+  if (gameLogicCounter == 0) {
+    obstacles.push(new Obstacle('center_top'));
+    lastObstacleMovingDown = 0;
+  } else if (gameLogicCounter == 100) {
+    obstacles.push(new Obstacle('center_right'));
+    lastObstacleMovingRight = 0;
+  }
+
+  if (lastObstacleMovingDown > 150 && random() < 0.01) {
+    obstacles.push(new Obstacle('top'));
+    lastObstacleMovingDown = 0;
+  } else {
+    lastObstacleMovingDown++;
+  }
+  if (lastObstacleMovingUp > 150 && random() < 0.01) {
+    obstacles.push(new Obstacle('bottom'));
+    lastObstacleMovingUp = 0;
+  } else {
+    lastObstacleMovingUp++;
+  }
+  if (lastObstacleMovingLeft > 150 && random() < 0.01 ) {
+    obstacles.push(new Obstacle('right'));
+    lastObstacleMovingLeft = 0;
+  } else {
+    lastObstacleMovingLeft++;
+  }
+  if (lastObstacleMovingRight > 150 && random() < 0.01 ) {
+    obstacles.push(new Obstacle('left'));
+    lastObstacleMovingRight = 0;
+  } else {
+    lastObstacleMovingRight++;
+  }
 }
 
 function saveQTable() {
