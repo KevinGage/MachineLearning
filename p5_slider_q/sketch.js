@@ -1,14 +1,3 @@
-const learningRate = 1;
-const discount = 0.95;
-const episodes = 25000;
-const showEvery = 2000;
-let never_solved = false;
-let epsilon = 0.5;
-const startEpsilonDecaying = 1;
-const endEpsilonDecaying = Math.floor(episodes / 2);
-const epsilonDecayValue = epsilon / (endEpsilonDecaying - startEpsilonDecaying);
-
-// DETERMINE SIZE OF Q TABLE
 // Here are the inputs that I think I will use
 // each of the eye to point distances for 8 eyes.  So 8 numbers between 0 and width
 // the previous values of all 8 eyes
@@ -28,7 +17,21 @@ const epsilonDecayValue = epsilon / (endEpsilonDecaying - startEpsilonDecaying);
 // if player colides with boundary simulation ends
 // if player colides with goal simulation ends
 
+const learningRate = 0.1;
+const discount = 0.95;
+const episodes = 25000;
+const showEvery = 2000;
+let never_solved = true;
+let epsilon = 0.5;
+const startEpsilonDecaying = 1;
+const endEpsilonDecaying = Math.floor(episodes / 2);
+const epsilonDecayValue = epsilon / (endEpsilonDecaying - startEpsilonDecaying);
+
+const epRewards = []
+const aggrEpRewards = {'ep': [], 'avg': [], 'min': [], 'max': []}
+
 let player;
+let goal;
 let walls;
 let boundaries;
 let obstacles = [];
@@ -78,6 +81,9 @@ function setup() {
 
   // Add player
   player = new Guy();
+
+  // Add a goal
+  goal = new Goal();
 
   // Create random Q Table
   qTable = new QTable([[0,height], [0,width], [0,height], [0,width]], 20, 4, -200, 200);
@@ -164,6 +170,7 @@ function draw() {
   }
 
   player.show();
+  goal.show();
   if(showDebug.checked()) {
     player.look(boundaries);
   }
