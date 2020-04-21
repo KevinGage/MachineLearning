@@ -1,11 +1,12 @@
 from dueling_dqn_keras import Agent
 import numpy as np
 import gym
-#from utils import plot_learning_curve
+import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
   env = gym.make('LunarLander-v2')
   
+  render = True
   n_games = 400
   ACTIONS = env.action_space.n
 
@@ -25,6 +26,8 @@ if __name__ == '__main__':
       agent.store_transition(observation, action, reward, next_observation, done)
       observation = next_observation
       agent.learn()
+      if render:
+        env.render()
     
     eps_history.append(agent.epsilon)
     scores.append(score)
@@ -34,6 +37,7 @@ if __name__ == '__main__':
           'average score last 100 games %.1f' % avg_score, 
           'epsilon %2f' % agent.epsilon)
   
-  #filename='keras_lunar_lander.png'
-  #x = [i+1 for i in range(n_games)]
-  #plot_learning_curve(x, scores, eps_history, filename)
+  plt.plot(scores)
+  plt.ylabel('scores')
+  plt.xlabel('episodes')
+  plt.show()

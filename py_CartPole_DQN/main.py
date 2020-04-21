@@ -34,9 +34,11 @@
 import gym
 import numpy as np
 from dueling_dqn_keras import Agent
+import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
+  render = True
   n_games = 400
 
   # load the game
@@ -66,7 +68,8 @@ if __name__ == '__main__':
       agent.store_transition(observation, action, reward, next_observation, done)
       observation = next_observation
       agent.learn()
-      env.render()
+      if render:
+        env.render()
     
     eps_history.append(agent.epsilon)
     scores.append(score)
@@ -75,4 +78,8 @@ if __name__ == '__main__':
     print('episode ', i, 'score %.1f' % score, 
           'average score last 100 games %.1f' % avg_score, 
           'epsilon %2f' % agent.epsilon)
-
+  
+  plt.plot(scores)
+  plt.ylabel('scores')
+  plt.xlabel('episodes')
+  plt.show()

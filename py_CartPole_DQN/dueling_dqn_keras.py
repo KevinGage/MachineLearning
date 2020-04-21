@@ -134,11 +134,6 @@ class Agent():
     self.fname = fname
     self.replace = replace
 
-    # ENABLE TENSORFLOW EAGER EXECUTION.
-    # THIS IS REQUIRED BUT WASNT IN DEMO
-    # NOT SURE WHAT IT DOES
-    tf.enable_eager_execution()
-
     # keep track of learn step so we know when to use replace function
     self.learn_step_counter = 0
     # create the memory buffer
