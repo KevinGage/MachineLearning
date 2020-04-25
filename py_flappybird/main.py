@@ -6,31 +6,23 @@ window = pyglet.window.Window(800, 600, 'flappy bird')
 
 agent = bird(0,0)
 
-score = 0
-highScore = 0
-
-score_label = pyglet.text.Label(f'Score: {score}',
+score_label = pyglet.text.Label(f'Score: {agent.score}',
   font_name='Times New Roman',
   font_size=10,
   x=0, y=window.height - 20,
   anchor_x='left', anchor_y='center')
 
-high_score_label = pyglet.text.Label(f'High Score: {highScore}',
+high_score_label = pyglet.text.Label(f'High Score: {agent.high_score}',
   font_name='Times New Roman',
   font_size=10,
   x=0, y=score_label.y - 15,
   anchor_x='left', anchor_y='center')
 
 def updateScore(dt):
-  global score
-  global highScore
+  agent.setScore(agent.score + 1)
 
-  score += 1
-  if score > highScore:
-    highScore = score
-  
-  score_label.text = f'Score: {score}'
-  high_score_label.text = f'High Score: {highScore}'
+  score_label.text = f'Score: {agent.score}'
+  high_score_label.text = f'High Score: {agent.high_score}'
 
 pyglet.clock.schedule_interval(updateScore, 0.1)
 
