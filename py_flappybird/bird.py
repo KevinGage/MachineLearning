@@ -4,6 +4,8 @@ class bird():
   def __init__(self, x, y, max_y, batch, size = 25 ):
     self.score = 0
     self.high_score = 0
+    self.start_x = x
+    self.start_y = y
     self.x = x
     self.y = y
     self.max_y = max_y
@@ -71,7 +73,12 @@ class bird():
     # self.vertex_list.vertices = self.get_corners()
     # self.vertex_list.draw(pyglet.gl.GL_QUADS)
 
-  def setScore(self, newScore):
+  def set_score(self, newScore):
     self.score = newScore
     if newScore > self.high_score:
       self.high_score = newScore
+  
+  def game_over(self):
+    self.score = 0
+    self.x = self.start_x
+    self.y = self.start_y
