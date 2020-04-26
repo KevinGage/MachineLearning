@@ -13,7 +13,6 @@ PIPE_VELOCITY = 6
 last_pipe = 0
 pipes = []
 
-
 # Create window with resolution of 800 x 600
 window = pyglet.window.Window(800, 600, 'flappy bird')
 
@@ -35,6 +34,9 @@ def updateScore(dt):
 
   for p in pipes:
     p.update()
+    if ((agent.x + agent.size) > p.x) and (agent.x < (p.x + PIPE_WIDTH)):
+      if ((agent.y < p.y) or ((agent.y + agent.size) > (p.y + PIPE_GAP))):
+        agent.score = 0
 
   pipes_off_screen = [index for index,value in enumerate(pipes) if value.x < (-1 * PIPE_WIDTH)]
 
