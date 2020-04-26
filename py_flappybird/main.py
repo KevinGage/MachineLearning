@@ -6,6 +6,8 @@ from pipe import pipe
 from scoreboard import scoreboard
 
 # Setup contant variables
+DEBUG = True
+
 PIPE_FREQUENCY = 100
 PIPE_WIDTH = 60
 PIPE_GAP = 150
@@ -15,6 +17,8 @@ pipes = []
 
 # Create window with resolution of 800 x 600
 window = pyglet.window.Window(800, 600, 'flappy bird')
+if DEBUG:
+  fps_display = pyglet.window.FPSDisplay(window=window)
 
 # Create the main drawing batch for vertices
 main_batch = pyglet.graphics.Batch()
@@ -71,6 +75,8 @@ def on_key_press(symbol, modifiers):
 def on_draw():
   window.clear()
   main_batch.draw()
+  if DEBUG:
+    fps_display.draw()
 
 # run app
 pyglet.app.run()
