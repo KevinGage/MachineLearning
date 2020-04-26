@@ -2,7 +2,7 @@ import pyglet.app
 
 class pipe():
   # x and y should be top left point of bottom quad
-  def __init__(self, x, y, window_height, batch, width = 60, gap = 200, velocity = 6 ):
+  def __init__(self, x, y, width, gap, velocity, window_height, batch ):
     self.x = x
     self.y = y
     self.width = width
@@ -34,4 +34,6 @@ class pipe():
     bottom = (self.x, self.y, self.x + self.width, self.y, self.x + self.width, 0, self.x, 0)
     return [top, bottom]
 
-    # return (self.x, self.y, self.x, self.y + self.size, self.x + self.size, self.y + self.size, self.x + self.size , self.y)
+  def delete(self):
+    self.top_vertex_list.delete()
+    self.bottom_vertex_list.delete()
