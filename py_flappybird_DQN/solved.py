@@ -21,7 +21,7 @@ if __name__ == '__main__':
   # input dimensions
   # bird.y, bird.velocity, closets pipe.x, closest pipe.y
 
-  agent = Agent(n_actions=ACTIONS, gamma=0.99, epsilon=0, lr=1e-3, input_dims=[4], epsilon_dec=1e-3, mem_size=100000, batch_size=128, epsilon_end=0, fc1_dims=128, fc2_dims=128, replace=200)
+  agent = Agent(n_actions=ACTIONS, gamma=0.99, epsilon=0, lr=0, input_dims=[4], epsilon_dec=0, mem_size=0, batch_size=0, epsilon_end=0, fc1_dims=128, fc2_dims=128, replace=200)
   agent.load_model()
 
   # Create window with resolution of 800 x 600
