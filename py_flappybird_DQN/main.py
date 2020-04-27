@@ -5,10 +5,11 @@ from pyglet.window import key
 from bird import bird
 from pipe import pipe
 from scoreboard import scoreboard
+from debugboard import debugboard
 
 if __name__ == '__main__':
   # Setup contant variables
-  DEBUG = False
+  DEBUG = True
 
   PIPE_FREQUENCY = 100
   PIPE_WIDTH = 60
@@ -22,10 +23,9 @@ if __name__ == '__main__':
   ACTIONS = 2
 
   # input dimensions
-  # bird.x, bird.y, bird.velocity, closets pipe.x, closest pipe.y
+  # bird.y, bird.velocity, closets pipe.x, closest pipe.y
 
-  agent = Agent(n_actions=ACTIONS, gamma=0.99, epsilon=1, lr=1e-3, input_dims=[5], epsilon_dec=1e-3, mem_size=100000, batch_size=64, epsilon_end=0.01, fc1_dims=128, fc2_dims=128, replace=100)
-  scores, eps_history = [], []
+  agent = Agent(n_actions=ACTIONS, gamma=0.99, epsilon=1, lr=1e-3, input_dims=[4], epsilon_dec=1e-3, mem_size=100000, batch_size=128, epsilon_end=0.001, fc1_dims=128, fc2_dims=128, replace=200)
 
   # Create window with resolution of 800 x 600
   window = pyglet.window.Window(800, 600, 'flappy bird')
@@ -41,10 +41,16 @@ if __name__ == '__main__':
   # create scoreboard
   scoreboard = scoreboard(0, window.height - 20, main_batch)
 
+  if DEBUG:
+    debugboard = debugboard(window.width - 200, window.height - 20, main_batch)
+
   # define game over reset
   def game_over():
     global last_pipe
     global pipes
+
+    if DEBUG:
+      debugboard.set_metrics(debugboard.game_count + 1, bird.score)
 
     for p in pipes:
       p.delete()
@@ -66,12 +72,14 @@ if __name__ == '__main__':
       pipe_x = pipes[0].x
       pipe_y = pipes[0].y
 
-    # bird.x, bird.y, bird.velocity, closets pipe.x, closest pipe.y
-    observation = [bird.x, bird.y, bird.velocity, pipe_x, pipe_y]
+    # bird.y, bird.velocity, closets pipe.x, closest pipe.y
+    observation = [bird.y, bird.velocity, pipe_x, pipe_y]
     action = agent.choose_action(observation)
 
     if action == 0:
       bird.jump()
+
+    reward = 1
 
     # remove offscreen pipes
     pipes_off_screen = [index for index,value in enumerate(pipes) if value.x < (-1 * PIPE_WIDTH)]
@@ -79,6 +87,7 @@ if __name__ == '__main__':
     for p in pipes_off_screen:
       pipes[p].delete()
       pipes.pop(p)
+      reward += 150
 
     # add a new pipe if it is due
     if last_pipe % PIPE_FREQUENCY == 0:
@@ -96,7 +105,6 @@ if __name__ == '__main__':
     scoreboard.set_score(bird.score)
 
     done = False
-    reward = 1
 
     # check for game over
     if bird.y <= 0:
@@ -124,7 +132,7 @@ if __name__ == '__main__':
       pipe_x = pipes[0].x
       pipe_y = pipes[0].y
 
-    next_observation = [bird.x, bird.y, bird.velocity, pipe_x, pipe_y]
+    next_observation = [bird.y, bird.velocity, pipe_x, pipe_y]
     agent.store_transition(observation, action, reward, next_observation, done)
     agent.learn()
 
