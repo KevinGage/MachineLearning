@@ -18,6 +18,9 @@ if __name__ == '__main__':
   last_pipe = 0
   pipes = []
 
+  TARGET_SCORE = 10000
+  saved_network = False
+
   n_games = 100
   # Jump or do nothing
   ACTIONS = 2
@@ -64,6 +67,7 @@ if __name__ == '__main__':
   def updateScore(dt):
     global last_pipe
     global pipes
+    global saved_network
 
     # handle no pipe condition
     pipe_x = window.width
@@ -121,6 +125,9 @@ if __name__ == '__main__':
 
     if not done:
       bird.set_score(bird.score + reward)
+      if bird.score > TARGET_SCORE and not saved_network:
+        agent.save_model()
+        saved_network = True
     else:
       reward = -100
       game_over()
