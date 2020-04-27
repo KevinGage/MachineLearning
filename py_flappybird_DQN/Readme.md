@@ -18,6 +18,8 @@ Create a python environment and install pre-requisits to use
 4. ```python ./train.py```
 5. After the agent hits the target score a new solved_weights file will be created.
 
+You can also press the 's' key on the keyboard at anytime to save the current weights.
+
 # Play game with saved weights
 
 1. Make sure there is a 'solved_weights.h5' file in the current path

@@ -149,8 +149,10 @@ if __name__ == '__main__':
   # handle key presses
   @window.event
   def on_key_press(symbol, modifiers):
-      if symbol == key.SPACE:
-          bird.jump()
+    if symbol == key.SPACE:
+      bird.jump()
+    if symbol == key.S:
+      agent.save_model()
 
   # do on every redraw of window
   @window.event
