@@ -215,13 +215,14 @@ class Agent():
   
   # function to load a saved model
   def load_model(self):
-    q_eval = DuelingDeepQNetwork(2, 128, 128)
-    q_eval.compile(optimizer=Adam(learning_rate=1e-3), loss='mean_squared_error')
+    self.q_eval = DuelingDeepQNetwork(2, 128, 128)
+    self.q_eval.compile(optimizer=Adam(learning_rate=1e-3), loss='mean_squared_error')
 
     # Keras lazily creates models.
     # feed in junk data to create the shape
     observation = [1.0, 1.0, 1.0, 1.0]
     state = np.array([observation])
-    actions = q_eval.call(state)
+    actions = self.q_eval.call(state)
 
-    q_eval.load_weights(self.fname, by_name=True)
+    self.q_eval.load_weights(self.fname)
+
