@@ -1,3 +1,4 @@
+from dueling_dqn_keras import Agent
 import pyglet.app
 import random
 from pyglet.window import key
@@ -16,6 +17,16 @@ if __name__ == '__main__':
   last_pipe = 0
   pipes = []
 
+  n_games = 100
+  # Jump or do nothing
+  ACTIONS = 2
+
+  # input dimensions
+  # bird.x, bird.y, bird.velocity, closets pipe.x, closest pipe.y
+
+  agent = Agent(n_actions=ACTIONS, gamma=0.99, epsilon=1, lr=1e-3, input_dims=[5], epsilon_dec=1e-3, mem_size=100000, batch_size=64, epsilon_end=0.01, fc1_dims=128, fc2_dims=128, replace=100)
+  scores, eps_history = [], []
+
   # Create window with resolution of 800 x 600
   window = pyglet.window.Window(800, 600, 'flappy bird')
   if DEBUG:
@@ -25,7 +36,7 @@ if __name__ == '__main__':
   main_batch = pyglet.graphics.Batch()
 
   # create the player / agent at center of screen
-  agent = bird(25 ,window.height / 2, window.height, main_batch)
+  bird = bird(25 ,window.height / 2, window.height, main_batch)
 
   # create scoreboard
   scoreboard = scoreboard(0, window.height - 20, main_batch)
@@ -41,12 +52,26 @@ if __name__ == '__main__':
     pipes = []
     last_pipe = 0
 
-    agent.game_over()
+    bird.game_over()
 
   # logic to run every 1 / 120 seconds
   def updateScore(dt):
     global last_pipe
     global pipes
+
+    # handle no pipe condition
+    pipe_x = window.width
+    pipe_y = window.height / 2
+    if len(pipes) > 0:
+      pipe_x = pipes[0].x
+      pipe_y = pipes[0].y
+
+    # bird.x, bird.y, bird.velocity, closets pipe.x, closest pipe.y
+    observation = [bird.x, bird.y, bird.velocity, pipe_x, pipe_y]
+    action = agent.choose_action(observation)
+
+    if action == 0:
+      bird.jump()
 
     # remove offscreen pipes
     pipes_off_screen = [index for index,value in enumerate(pipes) if value.x < (-1 * PIPE_WIDTH)]
@@ -65,30 +90,52 @@ if __name__ == '__main__':
     last_pipe += 1
 
     # move agent
-    agent.update()
+    bird.update()
 
     # update score
-    scoreboard.set_score(agent.score)
+    scoreboard.set_score(bird.score)
+
+    done = False
+    reward = 1
 
     # check for game over
-    if agent.y > 0:
-      agent.set_score(agent.score + 1)
-    else:
-      game_over()
+    if bird.y <= 0:
+      done = True
+
+    if bird.y + bird.size >= bird.max_y:
+      done = True
 
     for p in pipes:
       p.update()
-      if ((agent.x + agent.size) > p.x) and (agent.x < (p.x + PIPE_WIDTH)):
-        if ((agent.y < p.y) or ((agent.y + agent.size) > (p.y + PIPE_GAP))):
-          game_over()
+      if ((bird.x + bird.size) > p.x) and (bird.x < (p.x + PIPE_WIDTH)):
+        if ((bird.y < p.y) or ((bird.y + bird.size) > (p.y + PIPE_GAP))):
+          done = True
+
+    if not done:
+      bird.set_score(bird.score + reward)
+    else:
+      reward = -100
+      game_over()
+    
+    # handle no pipe condition
+    pipe_x = window.width
+    pipe_y = window.height / 2
+    if len(pipes) > 0:
+      pipe_x = pipes[0].x
+      pipe_y = pipes[0].y
+
+    next_observation = [bird.x, bird.y, bird.velocity, pipe_x, pipe_y]
+    agent.store_transition(observation, action, reward, next_observation, done)
+    agent.learn()
 
   pyglet.clock.schedule_interval(updateScore, 1 / 120)
+
 
   # handle key presses
   @window.event
   def on_key_press(symbol, modifiers):
       if symbol == key.SPACE:
-          agent.jump()
+          bird.jump()
 
   # do on every redraw of window
   @window.event

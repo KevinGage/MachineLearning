@@ -27,8 +27,8 @@ class bird():
       self.y = 0
       self.velocity = 0
     
-    if (self.y > self.max_y):
-      self.y = self.max_y
+    if (self.y + self.size > self.max_y):
+      self.y = self.max_y - self.size
 
     self.vertex_list.vertices = self.get_corners()
   
