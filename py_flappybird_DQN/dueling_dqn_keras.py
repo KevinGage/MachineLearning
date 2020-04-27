@@ -45,7 +45,6 @@ class DuelingDeepQNetwork(keras.Model):
 
     return A
 
-
 # Replay Buffer
 # Keeps track of the state, action, reward, new_state, and terminal_reward transitions
 # So basically track what happened when taking an action at a given state
@@ -121,7 +120,7 @@ class Agent():
   # replace (how many steps to wait before updating weights in target network with weights in evaluation network.)
   def __init__(self, lr, gamma, n_actions, epsilon, batch_size,
                input_dims, epsilon_dec=1e-3, epsilon_end=0.01, 
-               mem_size=100000, fname='dueling_dqn.h5', fc1_dims=128,
+               mem_size=100000, fname='solved_weights.h5', fc1_dims=128,
                fc2_dims=128, replace=100):
     # save possible actions
     self.action_space = [i for i in range(n_actions)]
@@ -211,8 +210,18 @@ class Agent():
 
   # function to save the model
   def save_model(self):
-    self.q_eval.save(delf.model_file)
+    print('Saving model weights!')
+    self.q_eval.save_weights(self.fname)
   
   # function to load a saved model
   def load_model(self):
-    self.q_eval = load_model(self.model_file)
+    q_eval = DuelingDeepQNetwork(2, 128, 128)
+    q_eval.compile(optimizer=Adam(learning_rate=1e-3), loss='mean_squared_error')
+
+    # Keras lazily creates models.
+    # feed in junk data to create the shape
+    observation = [1.0, 1.0, 1.0, 1.0]
+    state = np.array([observation])
+    actions = q_eval.call(state)
+
+    q_eval.load_weights(self.fname, by_name=True)
