@@ -15,7 +15,7 @@ Create a python environment and install pre-requisits to use
 2. ```python ./play.py```
 
 # Train
-1. There are already saved weights in 'solved_weights.h5' which acheived a score of 10000. Delete or rename this if you want to train your own weights.
+1. There are already saved weights in 'solved_weights.h5' which acheived a score of 25000. Delete or rename this if you want to train your own weights.
 2. Set "TARGET_SCORE" in train.py. It is 10000 by default
 3. Set "N_GAMES" (max number of games) in train.py.  It is 1000 by default
 4. ```source {env name}\bin\activate```
