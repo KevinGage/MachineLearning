@@ -1,7 +1,7 @@
 import pyglet.app
 
 class bird():
-  def __init__(self, x, y, max_y, batch, size = 25 ):
+  def __init__(self, x, y, max_y, batch = False, size = 25 ):
     self.score = 0
     self.high_score = 0
     self.start_x = x
@@ -13,11 +13,13 @@ class bird():
     self.lift = 10
     self.velocity = 0
     self.size = size
+    self.batch = batch
 
-    self.vertex_list = batch.add(4, pyglet.gl.GL_QUADS, None,
-      ('v2f', self.get_corners()),
-      ('c3B', (255,255,0) * 4)
-    )
+    if not batch == False:
+      self.vertex_list = batch.add(4, pyglet.gl.GL_QUADS, None,
+        ('v2f', self.get_corners()),
+        ('c3B', (255,255,0) * 4)
+      )
 
   def update(self):
     self.velocity -= self.gravity
@@ -30,7 +32,8 @@ class bird():
     if (self.y + self.size > self.max_y):
       self.y = self.max_y - self.size
 
-    self.vertex_list.vertices = self.get_corners()
+    if not self.batch == False:
+      self.vertex_list.vertices = self.get_corners()
   
   def get_corners(self):
     return (self.x, self.y, self.x, self.y + self.size, self.x + self.size, self.y + self.size, self.x + self.size , self.y)

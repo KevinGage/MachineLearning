@@ -10,18 +10,19 @@ Create a python environment and install pre-requisits to use
 * activate environment ```source {env name}\bin\activate```
 * install requirements.txt ```pip3 install -r requirements.txt```
 
+# Play the game yourself
+1. ```source {env name}\bin\activate```
+2. ```python ./play.py```
+
 # Train
-
-1. There are already saved weights in 'solved_weights.h5'. Delete or rename this if you want to train your own weights.
-2. Set target score in train.py. It is 10000 by default
-3. ```source {env name}\bin\activate```
-4. ```python ./train.py```
-5. After the agent hits the target score a new solved_weights file will be created.
-
-You can also press the 's' key on the keyboard at anytime to save the current weights.
+1. There are already saved weights in 'solved_weights.h5' which acheived a score of 10000. Delete or rename this if you want to train your own weights.
+2. Set "TARGET_SCORE" in train.py. It is 10000 by default
+3. Set "N_GAMES" (max number of games) in train.py.  It is 1000 by default
+4. ```source {env name}\bin\activate```
+5. ```python ./train.py```
+6. After the agent hits the target score a new solved_weights file will be created.
 
 # Play game with saved weights
-
 1. Make sure there is a 'solved_weights.h5' file in the current path
 3. ```source {env name}\bin\activate```
 4. ```python ./solved.py```
