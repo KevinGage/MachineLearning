@@ -2,8 +2,20 @@ from dueling_dqn_keras import Agent
 import numpy as np
 from game import game
 import matplotlib.pyplot as plt
+from signal import signal, SIGINT
+from sys import exit
+
+def handler(signal_received, frame):
+  # Handle any cleanup here
+  plt.plot(scores)
+  plt.ylabel('scores')
+  plt.xlabel('episodes')
+  plt.show()
+  exit(0)
 
 if __name__ == '__main__':
+  signal(SIGINT, handler)
+
   # Setup contant variables
   PIPE_FREQUENCY = 100
   PIPE_WIDTH = 60
@@ -47,7 +59,7 @@ if __name__ == '__main__':
 
     eps_history.append(agent.epsilon)
     scores.append(score)
-    
+
     avg_score = np.mean(scores[-100:])
     print('episode ', i, 'score %.1f' % score, 
           'average score last 100 games %.1f' % avg_score, 
