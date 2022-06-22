@@ -20,7 +20,7 @@ kiwisolver==1.2.0
 lockfile==0.12.2
 Markdown==3.2.1
 matplotlib==3.2.1
-numpy==1.18.3
+numpy==1.22.0
 Pillow==7.1.1
 protobuf==3.11.3
 pycparser==2.20
